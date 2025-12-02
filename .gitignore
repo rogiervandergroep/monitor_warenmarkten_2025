@@ -38,6 +38,7 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+*.Rproj
 
 # pkgdown site
 docs/
@@ -47,3 +48,18 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# OS achtergrondfiles
+*.docx.url
+
+
+# data files
+01 data raw/
+02 references/
+03 intermediate/
+04 scripts 22/
+05 output tabellen/
+06 output figuren/
+
+rosm.cache/
+

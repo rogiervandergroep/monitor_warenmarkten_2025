@@ -1,0 +1,61 @@
+---
+format: 
+  docx:
+    reference-doc: template_warenmarkten_25.dotx
+execute:
+  echo: false
+  warning: false
+  error: false
+---
+```{r, }
+
+# inlezen libraries - 
+library(tidyverse)
+library(sf)
+library(ggspatial)
+library(raster)
+library(prettymapr)
+library(knitr)
+# library(svglite)
+# library(rsvg)
+
+opts_chunk$set(
+  dev = "svg") 
+
+```
+
+
+
+::: {custom-style = "Titelquarto"}
+Factsheet Warenmarkten Amsterdam
+:::
+
+::: {custom-style = "2 Datum"}
+`r Sys.Date()`
+:::
+
+::: {custom-style = "3 Introtekst"}
+Dit is mooie factsheet over de warenmarkten in Amsterdam. Voor elke markt wordt een aparte factsheet geschreven
+:::
+
+::: {custom-style = "Standaard"}
+
+In deze factsheet gaan we het hebben over de Albert Cuypmarkt in Amsterdam-Zuid. hieronder staat deze in de kaart het winkelgebied met daarachter de straten in grijs.
+
+```{r , fig.width = 12, fig.height = 5}
+
+read_rds("kaart_cuyp.rds")
+
+```
+
+Dit is een figuur met staafdiagrammen per markt. Je ziet het aandeel bezoekers per meting dat wel of niet naar de markt gaat
+
+```{r , fig.width = 12, fig.height = 8}
+
+read_rds("fig1_freqmarktbez_ams.rds")
+
+
+```
+
+
+:::
