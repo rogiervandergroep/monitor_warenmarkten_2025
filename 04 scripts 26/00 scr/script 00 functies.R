@@ -51,5 +51,16 @@ my_bind_rows <- function(groupvars) {
       my_selection(groupvars = groupvars),
     markt_list[["22_ond"]][["ond_22_wsp"]] |>
       my_selection(groupvars = groupvars)
-  )
+  ) |>
+    mutate(
+      type_markt2 = case_when(
+        type_markt %in%
+          c(
+            "dagelijks",
+            "meerdere dagen",
+            "maandag, donderdag en vrijdag"
+          ) ~ 'markt op meerdere dagen',
+        TRUE ~ 'eendaagse markt'
+      )
+    )
 }

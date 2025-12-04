@@ -138,6 +138,7 @@ my_markt_naam_mutate <- function(x) {
       markt = case_when(
         markt == "Plein '40 - '45" ~ "Plein 40-45",
         markt == "Waterlooplein" ~ "Waterloopleinmarkt",
+        markt == 'Biomarkt Zeeburg (van Eesterenlaan)' ~ 'Biomarkt Zeeburg',
         TRUE ~ markt
       )
     )

@@ -15,7 +15,7 @@ tabel_v1 |>
     leefklas == 'totaal',
     locatie == 'totaal'
   ) |>
-  mutate(v1 = factor(v1, levels = freq_levels_bez)) |>
+  mutate(v1 = factor(v1, levels = levels_freq_bez)) |>
   fun_totaal(
     xvar = perc,
     yvar = fct_rev(jaar),
@@ -38,8 +38,8 @@ tabel_v1 |>
     type_markt2 == 'totaal'
   ) |>
   mutate(
-    v1 = factor(v1, levels = freq_levels_bez),
-    leefklas = factor(leefklas, levels = leefklas_lev)
+    v1 = factor(v1, levels = levels_freq_bez),
+    leefklas = factor(leefklas, levels = levels_leefklas)
   ) |>
   fun_totaal(
     xvar = perc,
@@ -63,8 +63,8 @@ tabel_v1 |>
     type_markt2 == 'totaal'
   ) |>
   mutate(
-    v1 = factor(v1, levels = freq_levels_bez),
-    locatie = factor(locatie, levels = loc_levels_lang)
+    v1 = factor(v1, levels = levels_freq_bez),
+    locatie = factor(locatie, levels = levels_loc_lang)
   ) |>
   fun_totaal(
     xvar = perc,
@@ -94,8 +94,8 @@ tabel_v1 |>
     markt != 'totaal'
   ) |>
   mutate(
-    v1 = factor(v1, levels = freq_levels_bez),
-    locatie = factor(locatie, levels = loc_levels_lang)
+    v1 = factor(v1, levels = levels_freq_bez),
+    locatie = factor(locatie, levels = levels_loc_lang)
   ) |>
   fun_totaal(
     xvar = perc,
@@ -125,8 +125,8 @@ tabel_v1 |>
     markt != 'totaal'
   ) |>
   mutate(
-    v1 = factor(v1, levels = freq_levels_bez),
-    locatie = factor(locatie, levels = loc_levels_lang)
+    v1 = factor(v1, levels = levels_freq_bez),
+    locatie = factor(locatie, levels = levels_loc_lang)
   ) |>
   fun_totaal(
     xvar = perc,

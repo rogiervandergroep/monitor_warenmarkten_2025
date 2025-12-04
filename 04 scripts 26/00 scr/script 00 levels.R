@@ -13,6 +13,7 @@ levels_leefklas <- c(
   "tussen 35 en 55 jaar",
   "tussen 56 en 67 jaar",
   "68 jaar en ouder",
+  "onbekend",
   "totaal"
 )
 
@@ -40,5 +41,6 @@ levels_stadsdeel <- c(
   "Noord",
   "Weesp",
   "Zuidoost",
+  "buiten Amsterdam of buitenland",
   "totaal"
 )
