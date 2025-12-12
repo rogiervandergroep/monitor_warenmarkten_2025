@@ -13,7 +13,7 @@ levels_leefklas <- c(
   "tussen 35 en 55 jaar",
   "tussen 56 en 67 jaar",
   "68 jaar en ouder",
-  "onbekend",
+  "leeftijd onbekend",
   "totaal"
 )
 
@@ -34,6 +34,20 @@ levels_loc_kort <- c(
 levels_stadsdeel <- c(
   "Centrum",
   "Westpoort",
+  "West",
+  "Nieuw-West",
+  "Zuid",
+  "Oost",
+  "Noord",
+  "Weesp",
+  "Zuidoost",
+  "buiten Amsterdam of buitenland",
+  "totaal"
+)
+
+
+levels_stadsdeel_zwp <- c(
+  "Centrum",
   "West",
   "Nieuw-West",
   "Zuid",

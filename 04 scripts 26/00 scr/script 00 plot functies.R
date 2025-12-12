@@ -1,5 +1,10 @@
 #### figuren ----
 
+source(
+  'http://gitlab.com/os-amsterdam/tools-onderzoek-en-statistiek/-/raw/main/R/load_all.R'
+)
+
+
 grDevices::windowsFonts(
   "Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans")
 )
@@ -55,4 +60,33 @@ fun_totaal <- function(
       color = 'none',
       fill = guide_legend(nrow = 2, reverse = T)
     )
+}
+
+
+# handig voor kolommen zonder fill
+
+fun_totaal_een <- function(x, xvar, yvar, afr = 0) {
+  x |>
+
+    ggplot(aes(
+      y = {{ yvar }},
+      x = {{ xvar }}
+    )) +
+
+    geom_col(fill = blauw_pal[2]) +
+
+    geom_text(
+      aes(
+        label = round({{ xvar }}, afr)
+      ),
+      position = position_stack(vjust = 0.5),
+      family = font,
+      color = "white",
+      lineheight = .8
+    ) +
+
+    labs(title = NULL, x = NULL, y = NULL) +
+    theme_os() +
+    scale_fill_manual(name = NULL, values = blauw_pal[2]) +
+    guides(fill = guide_legend(reverse = T))
 }

@@ -141,6 +141,22 @@ my_markt_naam_mutate <- function(x) {
         markt == 'Biomarkt Zeeburg (van Eesterenlaan)' ~ 'Biomarkt Zeeburg',
         TRUE ~ markt
       )
+    ) |>
+    filter(
+      markt != "19",
+      markt != '18',
+      markt != 'niet ingevuld'
+    ) |>
+    mutate(
+      type_markt2 = case_when(
+        type_markt %in%
+          c(
+            "dagelijks",
+            "meerdere dagen",
+            "maandag, donderdag en vrijdag"
+          ) ~ 'markt op meerdere dagen',
+        TRUE ~ 'eendaagse markt'
+      )
     )
 }
 

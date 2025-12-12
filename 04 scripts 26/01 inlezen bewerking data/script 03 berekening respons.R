@@ -9,10 +9,12 @@ markt_list <- read_rds("03 intermediate/markten_totaal.rds")
 ## script om my_selection en my_bind_rows in te lezen
 source("04 scripts 26/00 scr/script 00 functies.R")
 
+source("04 scripts 26/00 scr/script 00 levels.R")
+
 respons <- list()
 
 
-respons[["totaal"]] <- my_bind_rows(groupvars = NULL) |>
+respons[["totaal"]] <- my_bind_rows(groupvars = c("type_markt2")) |>
   group_by(jaar, type_markt2, markt, groep) |>
   summarise(aantal = n()) |>
   pivot_wider(names_from = groep, values_from = aantal)
@@ -23,10 +25,17 @@ respons[["stadsdeel"]] <- my_bind_rows(
   group_by(jaar, groep, gebied_stadsdeel_code, gebied_stadsdeel_naam) |>
   summarise(aantal = n()) |>
   group_by(jaar, groep) |>
-  mutate(aandeel = aantal / sum(aantal))
+  mutate(aandeel = aantal / sum(aantal)) |>
+  mutate(
+    gebied_stadsdeel_naam = replace_na(
+      gebied_stadsdeel_naam,
+      "buiten Amsterdam of buitenland"
+    ),
+    gebied_stadsdeel_code = replace_na(gebied_stadsdeel_code, "Z")
+  )
 
 respons[["leeftijd"]] <- bind_rows(
-  my_bind_rows(groupvars = NULL) |>
+  my_bind_rows(groupvars = c("type_markt2")) |>
     group_by(jaar, type_markt2, markt, groep, leefklas) |>
     summarise(aantal = n()) |>
     group_by(jaar, type_markt2, markt, groep) |>
@@ -41,10 +50,14 @@ respons[["leeftijd"]] <- bind_rows(
       type_markt2 = 'totaal',
       markt = 'totaal'
     )
-)
+) |>
+  mutate(
+    leefklas = replace_na(leefklas, "leeftijd onbekend"),
+    leefklas = factor(leefklas, levels = levels_leefklas)
+  )
 
 respons[["locatie"]] <- bind_rows(
-  my_bind_rows(groupvars = NULL) |>
+  my_bind_rows(groupvars = c("type_markt2")) |>
     group_by(jaar, type_markt2, markt, groep, locatie) |>
     summarise(aantal = n()) |>
     group_by(jaar, type_markt2, markt, groep) |>
@@ -68,7 +81,7 @@ write.xlsx(respons, "05 output tabellen/tabel_respons_overzicht.xlsx")
 #### figure respons ---
 
 source("04 scripts 26/00 scr/script 00 plot functies.R")
-source("04 scripts 26/00 scr/script 00 levels.R")
+
 
 # selectie totaal -
 respons[["leeftijd"]] |>
@@ -77,9 +90,7 @@ respons[["leeftijd"]] |>
     groep == 'bezoekers'
   ) |>
   mutate(
-    aandeel = aandeel * 100,
-    leefklas = replace_na(leefklas, "onbekend"),
-    leefklas = factor(leefklas, levels = levels_leefklas)
+    aandeel = aandeel * 100
   ) |>
   fun_totaal(
     xvar = aandeel,
@@ -122,14 +133,11 @@ respons[["locatie"]] |>
 # selectie totaal -
 respons[["stadsdeel"]] |>
   filter(
+    gebied_stadsdeel_code != 'B',
     jaar == 'jaar 2025',
     groep == 'bezoekers'
   ) |>
   mutate(
-    gebied_stadsdeel_naam = replace_na(
-      gebied_stadsdeel_naam,
-      "buiten Amsterdam of buitenland"
-    ),
     aandeel = aandeel * 100,
     gebied_stadsdeel_naam = factor(
       gebied_stadsdeel_naam,
@@ -144,9 +152,8 @@ respons[["stadsdeel"]] |>
   ) +
   guides(
     color = 'none',
-    fill = guide_legend(nrow = 2, reverse = T)
+    fill = 'none'
   ) +
   theme_os(orientation = 'horizontal')
-
 
 ggsave("06 output figuren/fig_respons_sd.svg", width = 12, height = 8)

@@ -38,22 +38,7 @@ df_markt_v1 <- my_bind_rows(groupvars = "v1") |>
       TRUE ~ v1
     )
   ) |>
-  filter(
-    markt != "19",
-    markt != '18',
-    markt != 'niet ingevuld'
-  ) |>
-  mutate(
-    type_markt2 = case_when(
-      type_markt %in%
-        c(
-          "dagelijks",
-          "meerdere dagen",
-          "maandag, donderdag en vrijdag"
-        ) ~ 'markt op meerdere dagen',
-      TRUE ~ 'eendaagse markt'
-    )
-  ) |>
+
   mutate(
     v1 = case_when(
       (type_markt2 == 'eendaagse markt' &
