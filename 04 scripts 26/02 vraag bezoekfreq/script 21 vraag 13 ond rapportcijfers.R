@@ -6,10 +6,10 @@ library(openxlsx)
 markt_list <- read_rds("03 intermediate/markten_totaal.rds")
 
 
-# vraag 11  rapportcijfers items
+# vraag 09  rapportcijfers items
 # vraag 13  algemeen rapportcijfer
 
-v11_2016 <- markt_list[["16_bez"]] |>
+v11_2016 <- markt_list[["16_ond"]] |>
   select(
     v10_1,
     v10_2,
@@ -20,26 +20,26 @@ v11_2016 <- markt_list[["16_bez"]] |>
     v10_7,
     v10_8,
     v10_9,
-    v10_10,
-    v13
+    v10_11,
+    v13_ond
   ) |>
   names()
 
 
-v11_2022 <- markt_list[["22_bez"]][["bez_22_ams"]] |>
+v11_2022 <- markt_list[["22_ond"]][["ond_22_ams"]] |>
   select(
-    v10_variatie_in_het_rapportcijfer:v10_openingstijden_rapportcijfer,
-    v13
+    v8_variatie_in_het_rapportcijfer:v8_faciliteiten_rapportcijfer,
+    v12
   ) |>
   names()
 
-v11_2026 <- markt_list[["26_bez"]] |>
-  select(all_of(starts_with("v11_")), v13) |>
+v11_2026 <- markt_list[["26_ond"]] |>
+  select(all_of(starts_with("v9_")), v13) |>
   names()
 
 
-markt_list[["22_bez_ams_wsp"]] <- bind_rows(
-  markt_list[["22_bez"]][["bez_22_ams"]] |>
+markt_list[["22_ond_ams_wsp"]] <- bind_rows(
+  markt_list[["22_ond"]][["ond_22_ams"]] |>
     select(
       all_of(v11_2022),
       jaar,
@@ -48,7 +48,7 @@ markt_list[["22_bez_ams_wsp"]] <- bind_rows(
       stadsdeel_markt,
       leefklas
     ),
-  markt_list[["22_bez"]][["bez_22_wsp"]] |>
+  markt_list[["22_ond"]][["ond_22_wsp"]] |>
     select(
       all_of(v11_2022),
       jaar,
@@ -72,7 +72,7 @@ df_labels_16 <- tibble::tibble(
     "stallingsmogelijkheden voor fiets/scooter",
     "netheid/verzorgdheid",
     "reclame en acties",
-    "openingstijden",
+    "faciliteiten",
     "algemeen rapportcijfer"
   )
 )
@@ -90,7 +90,7 @@ df_labels_22 <- tibble::tibble(
     "stallingsmogelijkheden voor fiets/scooter",
     "netheid/verzorgdheid",
     "reclame en acties",
-    "openingstijden",
+    "faciliteiten",
     "algemeen rapportcijfer"
   )
 )
@@ -101,12 +101,14 @@ df_labels_26 <- tibble::tibble(
   labels = c(
     "variatie in het eetbare productaanbod",
     "variatie in het niet-eetbare productaanbod",
-    "aanbod voedsel voor directe consumptie (kant-en-klaar voedsel)",
+    "uitstraling van de marktkramen",
     "sfeer/gezelligheid op de markt",
     "indeling en opstelling van de markt",
-    "parkeermogelijkheden en tarieven",
+    "bereikbaarheid van de markt",
+    "stallingsmogelijkheden voor fiets/scooter",
     "netheid/verzorgdheid",
-    "openingstijden",
+    "reclame en acties",
+    "faciliteiten",
     "algemeen rapportcijfer"
   )
 )
@@ -126,21 +128,21 @@ function_rapportijfer <- function(x, i, group_vars) {
 df_rapportcijfers <- list()
 
 df_rapportcijfers[['totaal']] <- bind_rows(
-  markt_list[["26_bez"]] |>
+  markt_list[["26_ond"]] |>
     function_rapportijfer(
       i = v11_2026,
       group_vars = NULL
     ) |>
     left_join(df_labels_26, by = "name"),
 
-  markt_list[["22_bez_ams_wsp"]] |>
+  markt_list[["22_ond_ams_wsp"]] |>
     function_rapportijfer(
       i = v11_2022,
       group_vars = NULL
     ) |>
     left_join(df_labels_22, by = "name"),
 
-  markt_list[["16_bez"]] |>
+  markt_list[["16_ond"]] |>
     function_rapportijfer(
       i = v11_2016,
       group_vars = NULL
@@ -150,21 +152,21 @@ df_rapportcijfers[['totaal']] <- bind_rows(
 
 
 df_rapportcijfers[['markt']] <- bind_rows(
-  markt_list[["26_bez"]] |>
+  markt_list[["26_ond"]] |>
     function_rapportijfer(
       i = v11_2026,
       group_vars = c("markt")
     ) |>
     left_join(df_labels_26, by = "name"),
 
-  markt_list[["22_bez_ams_wsp"]] |>
+  markt_list[["22_ond_ams_wsp"]] |>
     function_rapportijfer(
       i = v11_2022,
       group_vars = c("markt")
     ) |>
     left_join(df_labels_22, by = "name"),
 
-  markt_list[["16_bez"]] |>
+  markt_list[["16_ond"]] |>
     function_rapportijfer(
       i = v11_2016,
       group_vars = c("markt")
@@ -174,21 +176,21 @@ df_rapportcijfers[['markt']] <- bind_rows(
 
 
 df_rapportcijfers[['stadsdeel_markt']] <- bind_rows(
-  markt_list[["26_bez"]] |>
+  markt_list[["26_ond"]] |>
     function_rapportijfer(
       i = v11_2026,
       group_vars = c("stadsdeel_markt")
     ) |>
     left_join(df_labels_26, by = "name"),
 
-  markt_list[["22_bez_ams_wsp"]] |>
+  markt_list[["22_ond_ams_wsp"]] |>
     function_rapportijfer(
       i = v11_2022,
       group_vars = c("stadsdeel_markt")
     ) |>
     left_join(df_labels_22, by = "name"),
 
-  markt_list[["16_bez"]] |>
+  markt_list[["16_ond"]] |>
     function_rapportijfer(
       i = v11_2016,
       group_vars = c("stadsdeel_markt")
@@ -198,21 +200,21 @@ df_rapportcijfers[['stadsdeel_markt']] <- bind_rows(
 
 
 df_rapportcijfers[['stadsdeel_markt']] <- bind_rows(
-  markt_list[["26_bez"]] |>
+  markt_list[["26_ond"]] |>
     function_rapportijfer(
       i = v11_2026,
       group_vars = c("stadsdeel_markt")
     ) |>
     left_join(df_labels_26, by = "name"),
 
-  markt_list[["22_bez_ams_wsp"]] |>
+  markt_list[["22_ond_ams_wsp"]] |>
     function_rapportijfer(
       i = v11_2022,
       group_vars = c("stadsdeel_markt")
     ) |>
     left_join(df_labels_22, by = "name"),
 
-  markt_list[["16_bez"]] |>
+  markt_list[["16_ond"]] |>
     function_rapportijfer(
       i = v11_2016,
       group_vars = c("stadsdeel_markt")
@@ -222,21 +224,21 @@ df_rapportcijfers[['stadsdeel_markt']] <- bind_rows(
 
 
 df_rapportcijfers[['type_markt2']] <- bind_rows(
-  markt_list[["26_bez"]] |>
+  markt_list[["26_ond"]] |>
     function_rapportijfer(
       i = v11_2026,
       group_vars = c("type_markt2")
     ) |>
     left_join(df_labels_26, by = "name"),
 
-  markt_list[["22_bez_ams_wsp"]] |>
+  markt_list[["22_ond_ams_wsp"]] |>
     function_rapportijfer(
       i = v11_2022,
       group_vars = c("type_markt2")
     ) |>
     left_join(df_labels_22, by = "name"),
 
-  markt_list[["16_bez"]] |>
+  markt_list[["16_ond"]] |>
     function_rapportijfer(
       i = v11_2016,
       group_vars = c("type_markt2")
@@ -246,21 +248,21 @@ df_rapportcijfers[['type_markt2']] <- bind_rows(
 
 
 df_rapportcijfers[['stadsdeel_markt']] <- bind_rows(
-  markt_list[["26_bez"]] |>
+  markt_list[["26_ond"]] |>
     function_rapportijfer(
       i = v11_2026,
       group_vars = c("stadsdeel_markt")
     ) |>
     left_join(df_labels_26, by = "name"),
 
-  markt_list[["22_bez_ams_wsp"]] |>
+  markt_list[["22_ond_ams_wsp"]] |>
     function_rapportijfer(
       i = v11_2022,
       group_vars = c("stadsdeel_markt")
     ) |>
     left_join(df_labels_22, by = "name"),
 
-  markt_list[["16_bez"]] |>
+  markt_list[["16_ond"]] |>
     function_rapportijfer(
       i = v11_2016,
       group_vars = c("stadsdeel_markt")
@@ -271,7 +273,13 @@ df_rapportcijfers[['stadsdeel_markt']] <- bind_rows(
 
 write.xlsx(
   df_rapportcijfers,
-  "05 output tabellen/tabel_v11_rapportcijfers.xlsx"
+  "05 output tabellen/tabel_v11_rapportcijfers_ond.xlsx"
+)
+
+
+write_rds(
+  df_rapportcijfers,
+  "03 intermediate/tabel_v11_rapportcijfers_ond.rds"
 )
 
 source("04 scripts 26/00 scr/script 00 plot functies.R")
@@ -291,8 +299,86 @@ my_filter <- function(x) {
 }
 
 ## opschonen antwoorden voor figuren
-df_rapportcijfers[["markt"]] <- df_rapportcijfers[["markt"]] |>
-  my_filter()
+rap_c_ond <- df_rapportcijfers[["markt"]] |>
+  my_filter() |>
+  add_column(groep = 'ondernemers')
+
+
+bind_rows(rap_c_bez, rap_c_ond) |>
+  filter(labels == 'algemeen rapportcijfer') |>
+  mutate(jaar = str_remove_all(jaar, "jaar ")) |>
+
+  ggplot(aes(
+    x = jaar,
+    y = markt,
+    fill = round(gemiddelde, 1)
+  )) +
+  geom_tile(color = "white", lwd = 0.9, linetype = 1) +
+  geom_text(aes(label = round(gemiddelde, 1)), family = font) +
+  labs(title = NULL, x = NULL, y = NULL) +
+  scale_fill_gradientn(colors = hcl.colors(20, "RdYlgn")) +
+  theme_os() +
+  facet_wrap(~groep)
+
+
+ggsave(
+  "06 output figuren/fig_v11_rap_tile.svg",
+  width = 12,
+  height = 8
+)
+
+
+rap_c_ond_items <- df_rapportcijfers[["totaal"]] |>
+  add_column(groep = "ondernemers")
+
+items <- c(
+  "kant en klaar voedsel",
+  "indeling en opstelling van de markt",
+  "netheid/verzorgdheid",
+  "openingstijden",
+  "parkeermogelijkheden en tarieven",
+  "sfeer/gezelligheid op de markt",
+  "variatie in het niet-eetbare productaanbod",
+  "variatie in het eetbare productaanbod",
+  "algemeen rapportcijfer",
+
+  "reclame en acties"
+)
+
+
+bind_rows(rap_c_bez_items, rap_c_ond_items) |>
+  mutate(
+    jaar = str_remove_all(jaar, "jaar "),
+    labels = str_remove_all(labels, "[\\\\()]"),
+    labels = str_replace_all(
+      labels,
+      "aanbod voedsel voor directe consumptie kant-en-klaar voedsel",
+      "kant en klaar voedsel"
+    )
+  ) |>
+  filter(labels %in% items) |>
+
+  ggplot(aes(
+    x = jaar,
+    y = labels,
+    fill = round(gemiddelde, 1)
+  )) +
+  geom_tile(color = "white", lwd = 0.9, linetype = 1) +
+  geom_text(aes(label = round(gemiddelde, 1)), family = font) +
+  labs(title = NULL, x = NULL, y = NULL) +
+  scale_fill_gradientn(colors = hcl.colors(20, "RdYlgn")) +
+  theme_os() +
+  facet_wrap(~groep)
+
+
+ggsave(
+  "06 output figuren/fig_v11_rap_tile_items.svg",
+  width = 12,
+  height = 6
+)
+
+
+###
 
 df_rapportcijfers[["markt"]] |>
   filter(jaar == 'jaar 2025') |>
@@ -304,7 +390,7 @@ df_rapportcijfers[["markt"]] |>
   facet_wrap(~labels)
 
 ggsave(
-  "06 output figuren/fig_v11_rap_totaal.svg",
+  "06 output figuren/fig_v11_rap_ond_totaal.svg",
   width = 12,
   height = 8
 )
@@ -320,7 +406,7 @@ df_rapportcijfers[["markt"]] |>
   facet_wrap(~labels)
 
 ggsave(
-  "06 output figuren/fig_v11_rap_markt.svg",
+  "06 output figuren/fig_v11_rap_ond_markt.svg",
   width = 12,
   height = 8
 )
@@ -336,7 +422,7 @@ df_rapportcijfers[["type_markt2"]] |>
   facet_wrap(~type_markt2)
 
 ggsave(
-  "06 output figuren/fig_v11_rap_type_markt2.svg",
+  "06 output figuren/fig_v11_rap_ond_type_markt2.svg",
   width = 12,
   height = 8
 )
@@ -351,7 +437,7 @@ df_rapportcijfers[["markt"]] |>
   facet_wrap(~jaar)
 
 ggsave(
-  "06 output figuren/fig_v11_rap_algemeen.svg",
+  "06 output figuren/fig_v11_rap_ond_algemeen.svg",
   width = 12,
   height = 8
 )

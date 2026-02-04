@@ -75,85 +75,165 @@ respons[["locatie"]] <- bind_rows(
 )
 
 
+### kenmerken ondernemers ---
+
+# vraag 1 bij ondernemers hoe lang staat u op de markt
+
+respons[["ond_lengte"]] <- bind_rows(
+  my_bind_rows(groupvars = c("type_markt2", "v1")) |>
+    mutate(
+      v1 = str_replace_all(
+        v1,
+        "niet ingevuld",
+        "weet niet, geen antwoord"
+      )
+    ) |>
+    filter(groep == 'ondernemers') |>
+    group_by(jaar, type_markt2, markt, v1) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, type_markt2, markt) |>
+    mutate(aandeel = aantal / sum(aantal)),
+
+  my_bind_rows(groupvars = c("v1")) |>
+    mutate(
+      v1 = str_replace_all(
+        v1,
+        "niet ingevuld",
+        "weet niet, geen antwoord"
+      )
+    ) |>
+    filter(groep == "ondernemers") |>
+    group_by(jaar, v1) |>
+    summarise(aantal = n()) |>
+    group_by(jaar) |>
+    mutate(aandeel = aantal / sum(aantal)) |>
+    add_column(
+      type_markt2 = 'totaal',
+      markt = 'totaal'
+    )
+) |>
+  mutate(v1 = factor(v1, levels = levels_ond_lengte))
+
+
+# vraag 2 vaste plek of sollicitant
+respons[["ond_plek"]] <- bind_rows(
+  my_bind_rows(groupvars = c("type_markt2", "v2")) |>
+    filter(groep == 'ondernemers') |>
+    mutate(
+      v2 = case_when(
+        v2 == 'sollicitant' ~ 'sollicitant / loteling',
+        v2 == 'niet ingevuld' ~ "weet niet, geen antwoord",
+        is.na(v2) ~ 'weet niet, geen antwoord',
+        TRUE ~ v2
+      )
+    ) |>
+    group_by(jaar, type_markt2, markt, v2) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, type_markt2, markt) |>
+    mutate(aandeel = aantal / sum(aantal)),
+
+  my_bind_rows(groupvars = c("v2")) |>
+    filter(groep == "ondernemers") |>
+    mutate(
+      v2 = case_when(
+        v2 == 'sollicitant' ~ 'sollicitant / loteling',
+        v2 == 'niet ingevuld' ~ "weet niet, geen antwoord",
+        is.na(v2) ~ 'weet niet, geen antwoord',
+        TRUE ~ v2
+      )
+    ) |>
+    group_by(jaar, v2) |>
+    summarise(aantal = n()) |>
+    group_by(jaar) |>
+    mutate(aandeel = aantal / sum(aantal)) |>
+    add_column(
+      type_markt2 = 'totaal',
+      markt = 'totaal'
+    )
+) |>
+  mutate(
+    v2 = factor(
+      v2,
+      levels = c(
+        "vergunninghouder",
+        "sollicitant / loteling",
+        "weet niet, geen antwoord"
+      )
+    )
+  )
+
+
+# vraag 3 verkoop food non food
+
+respons[["ond_verkoop"]] <- bind_rows(
+  my_bind_rows(groupvars = c("type_markt2", "v3")) |>
+    filter(groep == 'ondernemers') |>
+    mutate(
+      v3 = case_when(
+        v3 == 'food, namelijk' ~ 'food',
+        v3 == 'non food, namelijk' ~ 'non food',
+        v3 == 'non food , namelijk' ~ 'non food',
+        v3 == 'niet ingevuld' ~ "weet niet, geen antwoord",
+        is.na(v3) ~ 'weet niet, geen antwoord',
+        TRUE ~ v3
+      )
+    ) |>
+    group_by(jaar, type_markt2, markt, v3) |>
+
+    summarise(aantal = n()) |>
+    group_by(jaar, type_markt2, markt) |>
+    mutate(aandeel = aantal / sum(aantal)),
+
+  my_bind_rows(groupvars = c("v3")) |>
+    filter(groep == "ondernemers") |>
+    mutate(
+      v3 = case_when(
+        v3 == 'food, namelijk' ~ 'food',
+        v3 == 'non food, namelijk' ~ 'non food',
+        v3 == 'non food , namelijk' ~ 'non food',
+        v3 == 'niet ingevuld' ~ "weet niet, geen antwoord",
+        is.na(v3) ~ 'weet niet, geen antwoord',
+        TRUE ~ v3
+      )
+    ) |>
+    group_by(jaar, v3) |>
+    summarise(aantal = n()) |>
+    group_by(jaar) |>
+    mutate(aandeel = aantal / sum(aantal)) |>
+    add_column(
+      type_markt2 = 'totaal',
+      markt = 'totaal'
+    )
+) |>
+  mutate(
+    v3 = factor(
+      v3,
+      levels = c("food", "non food", "weet niet, geen antwoord")
+    )
+  )
+
+
+#### open antwoorden ---
+respons[["ond_food"]] <- my_bind_rows(
+  groupvars = c("type_markt2", "v3", "v3_food")
+) |>
+  filter(groep == 'ondernemers') |>
+  group_by(jaar, type_markt2, markt, v3, v3_food) |>
+  summarise(aantal = n())
+
+# open antwoorden food
+respons[["ond_nonfood"]] <- my_bind_rows(
+  groupvars = c("type_markt2", "v3", "v3_non_food")
+) |>
+  filter(groep == 'ondernemers') |>
+  group_by(jaar, type_markt2, markt, v3, v3_non_food) |>
+  summarise(aantal = n())
+
+
 write.xlsx(respons, "05 output tabellen/tabel_respons_overzicht.xlsx")
 
+# voor plots in rapport
+write_rds(respons, "03 intermediate/markten_respons.rds")
 
-#### figure respons ---
-
-source("04 scripts 26/00 scr/script 00 plot functies.R")
-
-
-# selectie totaal -
-respons[["leeftijd"]] |>
-  filter(
-    jaar == 'jaar 2025',
-    groep == 'bezoekers'
-  ) |>
-  mutate(
-    aandeel = aandeel * 100
-  ) |>
-  fun_totaal(
-    xvar = aandeel,
-    yvar = fct_relevel(fct_rev(markt), "totaal"),
-    fill = fct_rev(leefklas),
-    color_pal = os_blauw[c(1, 3, 4, 6, 7)]
-  ) +
-  guides(
-    color = 'none',
-    fill = guide_legend(nrow = 2, reverse = T)
-  ) +
-  theme_os(orientation = 'horizontal')
-
-
-ggsave("06 output figuren/fig_respons_lft.svg", width = 12, height = 8)
-
-# selectie totaal -
-respons[["locatie"]] |>
-  filter(
-    jaar == 'jaar 2025',
-    groep == 'bezoekers'
-  ) |>
-  mutate(
-    aandeel = aandeel * 100,
-    locatie = factor(locatie, levels = levels_loc_lang)
-  ) |>
-  fun_totaal(
-    xvar = aandeel,
-    yvar = fct_relevel(fct_rev(markt), "totaal"),
-    fill = fct_rev(locatie),
-    color_pal = os_blauw[c(1, 4, 7)]
-  ) +
-  guides(
-    color = 'none',
-    fill = guide_legend(nrow = 2, reverse = T)
-  ) +
-  theme_os(orientation = 'horizontal')
-
-
-# selectie totaal -
-respons[["stadsdeel"]] |>
-  filter(
-    gebied_stadsdeel_code != 'B',
-    jaar == 'jaar 2025',
-    groep == 'bezoekers'
-  ) |>
-  mutate(
-    aandeel = aandeel * 100,
-    gebied_stadsdeel_naam = factor(
-      gebied_stadsdeel_naam,
-      levels = levels_stadsdeel
-    )
-  ) |>
-  fun_totaal(
-    xvar = aandeel,
-    yvar = fct_rev(gebied_stadsdeel_naam),
-    fill = os_blauw[c(7)],
-    color_pal = os_blauw[c(7)]
-  ) +
-  guides(
-    color = 'none',
-    fill = 'none'
-  ) +
-  theme_os(orientation = 'horizontal')
-
-ggsave("06 output figuren/fig_respons_sd.svg", width = 12, height = 8)
+# voor plots in factsheet
+write_rds(respons, "07 quarto/01 intermediate/markten_respons.rds")

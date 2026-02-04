@@ -60,3 +60,9 @@ df_v14a_anderemarkten_selectie <- bind_rows(
   df_v14a_anderemarkten |>
     filter(v14 == 'geen andere markten')
 )
+
+write.xlsx(
+  df_v14a_anderemarkten,
+  "05 output tabellen/tabel_v14_anderemarkt.xlsx"
+)
+write_rds(df_v14a_anderemarkten, "03 intermediate/tabel_v14_anderemarkt.rds")

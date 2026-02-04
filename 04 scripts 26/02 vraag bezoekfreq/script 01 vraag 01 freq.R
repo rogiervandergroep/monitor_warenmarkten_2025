@@ -14,7 +14,7 @@ source("04 scripts 26/00 scr/script 00 functies.R")
 ### 2026 V2 Hoe vaak bezoekt u deze markt
 
 markt_list[["26_bez"]] <- markt_list[["26_bez"]] |>
-  select(-v1) |>
+  # select(-c(v1)) |>
   mutate(v1 = v2)
 
 
@@ -120,3 +120,4 @@ tabel_v1 <- bind_rows(
 
 write.xlsx(tabel_v1, "05 output tabellen/tabel_v1_frequentie.xlsx")
 write_rds(tabel_v1, "03 intermediate/markten_v1_freq.rds")
+write_rds(tabel_v1, "07 quarto/markten_v1_freq.rds")

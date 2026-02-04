@@ -58,3 +58,60 @@ levels_stadsdeel_zwp <- c(
   "buiten Amsterdam of buitenland",
   "totaal"
 )
+
+levels_ond_lengte <- c(
+  "korter dan 1 jaar",
+  "1 tot en met 2 jaar",
+  "3 tot en met 5 jaar",
+  "6 tot en met 10 jaar",
+  "langer dan 10 jaar",
+  "weet niet, geen antwoord"
+)
+
+
+levels_markt <- c(
+  "Albert Cuypmarkt",
+  "Anton de Komplein",
+  "Buikslotermeerplein",
+  "Dappermarkt",
+  "Ganzenhoef",
+  "Kraaiennest",
+  "Lambertus Zijlplein",
+  "Lindengracht",
+  "Noordermarkt",
+  "Reigersbos",
+  "Ten Katemarkt",
+  "Waterloopleinmarkt",
+  "Plein 40-45",
+  "Tussenmeer",
+  "Weesp",
+  "Amstelveld",
+  "Biomarkt Zeeburg",
+  "Haarlemmerplein",
+  "Stadionpleinmarkt"
+)
+
+levels_markt_eendaags <- c(
+  "Ganzenhoef",
+  "Kraaiennest",
+  "Lambertus Zijlplein",
+  "Lindengracht",
+  "Noordermarkt",
+  "Reigersbos",
+  "Tussenmeer",
+  "Weesp",
+  "Amstelveld",
+  "Biomarkt Zeeburg",
+  "Haarlemmerplein",
+  "Stadionpleinmarkt"
+)
+
+levels_markt_meerdaags <- c(
+  "Albert Cuypmarkt",
+  "Anton de Komplein",
+  "Buikslotermeerplein",
+  "Dappermarkt",
+  "Ten Katemarkt",
+  "Waterloopleinmarkt",
+  "Plein 40-45"
+)

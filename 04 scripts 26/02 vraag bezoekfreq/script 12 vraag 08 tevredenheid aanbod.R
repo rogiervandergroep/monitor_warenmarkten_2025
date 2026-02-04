@@ -84,6 +84,8 @@ tabel_tevredenheid[["type_markt2"]] <- bind_rows(
 )
 
 write.xlsx(tabel_tevredenheid, "05 output tabellen/tabel_v8_tevredenheid.xlsx")
+write_rds(tabel_tevredenheid, "03 intermediate/tabel_v8_tevredenheid.rds")
+
 
 source("04 scripts 26/00 scr/script 00 plot functies.R")
 source("04 scripts 26/00 scr/script 00 levels.R")
@@ -106,10 +108,10 @@ tabel_tevredenheid[['markt']] |>
     xvar = aandeel * 100,
     yvar = fct_rev(markt),
     fillvar = fct_reorder(v8, aandeel),
-    color_pal = os_blauw
+    color_pal = os_blauw[c(1, 3, 4, 6, 7)]
   )
 
-ggsave("06 output figuren/fig_v8_tevr_markt.svg", width = 12, height = 6)
+ggsave("06 output figuren/fig_v8_tevr_markt.svg", width = 12, height = 10)
 
 bind_rows(
   tabel_tevredenheid[['type_markt2']],
@@ -118,11 +120,11 @@ bind_rows(
 ) |>
   fun_totaal(
     xvar = aandeel * 100,
-    yvar = fct_rev(type_markt2),
+    yvar = fct_rev(jaar),
     fillvar = fct_reorder(v8, aandeel),
     color_pal = os_blauw
   ) +
-  facet_wrap(~jaar)
+  facet_wrap(~type_markt2)
 
 ggsave("06 output figuren/fig_v8_tevr_markt2.svg", width = 12, height = 6)
 

@@ -116,6 +116,8 @@ redenen_ontevreden[["leefklas"]] <- bind_rows(
 
 
 write.xlsx(redenen_ontevreden, "05 output tabellen/tabel_v9_ontevred.xlsx")
+write_rds(redenen_ontevreden, "03 intermediate/tabel_v9_ontevr.rds")
+
 
 source("04 scripts 26/00 scr/script 00 plot functies.R")
 source("04 scripts 26/00 scr/script 00 levels.R")

@@ -77,6 +77,8 @@ v12_helpen[['v17']] <- markt_list[["26_bez"]] |>
     group_vars = c("v17")
   )
 write.xlsx(v12_helpen, "05 output tabellen/tabel_v12_helpen.xlsx")
+write_rds(v12_helpen, "03 intermediate/tabel_v12_helpen.rds")
+
 
 source("04 scripts 26/00 scr/script 00 plot functies.R")
 source("04 scripts 26/00 scr/script 00 levels.R")
@@ -119,6 +121,11 @@ v12_helpen[["totaal"]] |>
       "anders"
     )
   )
+ggsave(
+  "06 output figuren/fig_v12_markt_ams.svg",
+  width = 12,
+  height = 5
+)
 
 
 bind_rows(

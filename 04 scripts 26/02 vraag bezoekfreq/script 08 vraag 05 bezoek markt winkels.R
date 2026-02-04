@@ -10,13 +10,12 @@ library(openxlsx)
 markt_list <- read_rds("03 intermediate/markten_totaal.rds")
 
 # samenvoegen weesp en amsterdam
-markt_22_def <-bind_rows(
-  
-  markt_list[["22_bez"]][["bez_22_ams"]]  |>
-  select(v5, jaar, markt, leefklas, gebied_stadsdeel_naam),
+markt_22_def <- bind_rows(
+  markt_list[["22_bez"]][["bez_22_ams"]] |>
+    dplyr::select(v5, jaar, markt, leefklas, gebied_stadsdeel_naam),
 
-  markt_list[["22_bez"]][["bez_22_wsp"]]  |>
-  select(v5, jaar, markt, leefklas, gebied_stadsdeel_naam)
+  markt_list[["22_bez"]][["bez_22_wsp"]] |>
+    dplyr::select(v5, jaar, markt, leefklas, gebied_stadsdeel_naam)
 )
 
 
@@ -42,7 +41,6 @@ function_v5 <- function(x, group_vars) {
       group_by(jaar, across(all_of(group_vars))) |>
       mutate(aandeel = aantal / sum(aantal)),
 
-
     markt_list[["26_bez"]] |>
       filter(
         v5 != 'niet ingevuld',
@@ -55,14 +53,10 @@ function_v5 <- function(x, group_vars) {
   )
 }
 
-voornamelijk voor de markt                             
-  
-                     
-anders namelijk                                        
-weet niet, geen antwoord                               
+# voornamelijk voor de markt
 
-       
-
+# anders namelijk
+# weet niet, geen antwoord
 
 tabel_v5 <- bind_rows(
   function_v5(group_vars = NULL) |>
@@ -82,17 +76,21 @@ tabel_v5 <- bind_rows(
   function_v5(group_vars = c("markt")) |>
     add_column(achtergrond_var = 'markt') |>
     rename('achtergrond_type' = 'markt')
-)|>
-  mutate(v5 = case_when(
-v5 == 'voornamelijk voor de winkels in dit <u>winkelgebied</u>' ~ 'voornamelijk voor de winkels in dit winkelgebied',
-v5 == 'voornamleijk voor de supermarkten' ~ 'voornamelijk voor de supermarkten',
-v5 == 'anders, namelijk' ~ 'anders',
-TRUE ~ v5))
-
+) |>
+  mutate(
+    v5 = case_when(
+      v5 ==
+        'voornamelijk voor de winkels in dit <u>winkelgebied</u>' ~ 'voornamelijk voor de winkels in dit winkelgebied',
+      v5 ==
+        'voornamleijk voor de supermarkten' ~ 'voornamelijk voor de supermarkten',
+      v5 == 'anders, namelijk' ~ 'anders',
+      TRUE ~ v5
+    )
+  )
 
 
 write.xlsx(tabel_v5, "05 output tabellen/tabel_v5_voornaamstedoel.xlsx")
-
+write_rds(tabel_v5, "03 intermediate/tabel_v5_voornaamstedoel.rds")
 
 ####
 source("04 scripts 26/00 scr/script 00 plot functies.R")
@@ -112,13 +110,11 @@ tabel_v5 |>
     xvar = aandeel * 100,
     yvar = fct_rev(achtergrond_type),
     fillvar = fct_reorder(v5, aandeel),
-    color_pal = os_blauw
-  )+
-  facet_wrap(~ jaar)
+    color_pal = os_blauw[c(1, 3, 4, 6, 7)]
+  ) +
+  facet_wrap(~jaar)
 
 ggsave("06 output figuren/fig_tabel_v5_sd.svg", width = 12, height = 6)
-
-
 
 
 tabel_v5 |>
@@ -134,11 +130,10 @@ tabel_v5 |>
   ) |>
   fun_totaal(
     xvar = aandeel * 100,
-    yvar = fct_rev(achtergrond_type),
+    yvar = fct_relevel(fct_rev(achtergrond_type), "totaal"),
     fillvar = fct_reorder(v5, aandeel),
-    color_pal = os_blauw
-  )+
-  facet_wrap(~ jaar)
+    color_pal = os_blauw[c(1, 3, 4, 6, 7)]
+  ) +
+  facet_wrap(~jaar)
 
-ggsave("06 output figuren/fig_tabel_v5_markt.svg", width = 12, height = 6)
-
+ggsave("06 output figuren/fig_tabel_v5_markt.svg", width = 12, height = 10)

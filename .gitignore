@@ -50,7 +50,10 @@ po/*~
 rsconnect/
 
 # OS achtergrondfiles
+kort-rapport.dotx.url
+kort-rapport.dotx
 *.docx.url
+
 
 
 # data files
@@ -60,6 +63,10 @@ rsconnect/
 04 scripts 22/
 05 output tabellen/
 06 output figuren/
-
+07 quarto/01 intermediate/
+07 quarto/02 figuren/
+07 quarto/03 data/
 rosm.cache/
 
+# bestanden voor stemming
+*.udpipe

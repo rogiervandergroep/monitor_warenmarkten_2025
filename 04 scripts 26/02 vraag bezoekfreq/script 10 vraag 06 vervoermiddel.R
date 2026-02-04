@@ -50,6 +50,7 @@ tabel_v6 <- bind_rows(
 )
 
 write.xlsx(tabel_v6, "05 output tabellen/tabel_v6_vervoermiddel.xlsx")
+write_rds(tabel_v6, "03 intermediate/tabel_v6_vervoermiddel.rds")
 
 source("04 scripts 26/00 scr/script 00 plot functies.R")
 source("04 scripts 26/00 scr/script 00 levels.R")
@@ -86,4 +87,4 @@ tabel_v6 |>
     color_pal = os_blauw
   )
 
-ggsave("06 output figuren/fig_tabel_v6_markt.svg", width = 12, height = 6)
+ggsave("06 output figuren/fig_tabel_v6_markt.svg", width = 12, height = 10)

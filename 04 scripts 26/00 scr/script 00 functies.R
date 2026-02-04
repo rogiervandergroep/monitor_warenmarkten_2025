@@ -1,6 +1,4 @@
 library(tidyverse)
-library(scales)
-library(patchwork)
 
 
 # check kleurenschema: https://os-amsterdam.gitlab.io/datavisualisatie-onderzoek-en-statistiek/
@@ -14,7 +12,7 @@ source(
 my_selection <-
   function(x, groupvars) {
     x |>
-      select(
+      dplyr::select(
         any_of(c(
           "jaar",
           "markt",
