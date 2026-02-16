@@ -1,100 +1,10 @@
 ### frequentie monitor detailhandel
 
-# source("04 scripts 26/00 scr/script 00 functies.R")
-source("04 scripts 26/00 scr/script 00 levels.R")
-source("04 scripts 26/00 scr/script 00 plot functies.R")
-
-os_blauw <- c(
-  "#e6e6e6",
-  "#dcddee",
-  "#b8bcdd",
-  "#959dcc",
-  "#707ebb",
-  "#4861aa",
-  "#004699"
-)
-
-my_markt_selection <- function(x, markt_selectie) {
-  bind_rows(
-    # markt
-    x |>
-      filter(groep == 'bezoekers') |>
-      filter(markt == markt_selectie) |>
-      filter(leefklas == 'totaal') |>
-      filter(locatie == 'totaal'),
-
-    # totaal
-    x |>
-      filter(
-        groep == 'bezoekers',
-        markt == 'totaal',
-        type_markt2 == 'totaal',
-        leefklas == 'totaal',
-        locatie == 'totaal'
-      ),
-
-    # meerdaags of eendaags
-    x |>
-      filter(
-        groep == 'bezoekers',
-        markt == 'totaal',
-        leefklas == 'totaal',
-        locatie == 'totaal'
-      ) |>
-      filter(
-        if (markt_selectie %in% levels_markt_eendaags) {
-          type_markt2 == 'eendaagse markt'
-        } else {
-          type_markt2 == 'markt op meerdere dagen'
-        }
-      ) |>
-      dplyr::select(-c("markt")) |>
-      rename(markt = type_markt2)
-  )
-}
-
-
-## stack figuur markt links totaal rechts
-
-my_stack_figure <- function(tabel, vraag, naam) {
-  levels_markt |>
-    map(\(x) {
-      filter(tabel, markt %in% c(x, "totaal")) |>
-        fun_totaal(
-          xvar = aandeel,
-          yvar = fct_rev(jaar),
-          fillvar = fct_rev({{ vraag }}),
-          color_pal = os_blauw
-        ) +
-
-        facet_wrap(~ fct_relevel(markt, "totaal", after = Inf)) +
-        guides(color = 'none', fill = guide_legend(nrow = 2, reverse = T))
-    }) |>
-    set_names(levels_markt) |>
-    write_rds(glue::glue("07 quarto/02 figuren/fig_{ naam }.rds"))
-}
-
+source("07 quarto/00 scripts/script 00 plot functies.R")
 
 #### vraag 1: frequentie ---
 
 tabel_v1 <- read_rds("03 intermediate/markten_v1_freq.rds")
-
-
-levels_markt |>
-  map(\(x) {
-    filter(tabel_v3, groep == 'bezoekers', (markt == x | markt == 'totaal')) |>
-      fun_totaal_een(
-        xvar = aandeel,
-        yvar = fct_relevel(fct_reorder(name_tot, aandeel), "anders"),
-        afr = 0
-      ) +
-      guides(color = 'none', fill = 'none') +
-      scale_x_continuous(labels = scales::percent) +
-      facet_wrap(~ fct_relevel(markt, "totaal", after = Inf))
-  }) |>
-  set_names(levels_markt) |>
-  write_rds("07 quarto/02 figuren/fig_v3_redenen_bez.rds")
-
 
 tabel_v1 |>
   filter(
@@ -141,6 +51,35 @@ levels_markt |>
 #### vraag 3 : redenen bezoek ---
 
 tabel_v3 <- read_rds("03 intermediate/markten_v3_redenbezoek_alles.rds")
+
+### meestgenoemede reden bezoek
+
+tabel_v3_max <- tabel_v3 |>
+  group_by(markt, groep) |>
+  filter(
+    name_tot != 'anders',
+    name_tot != 'boodschappen doen'
+  ) |>
+  slice_max(aandeel, n = 1, with_ties = F) |>
+  write_rds("07 quarto/03 data/tab_v3_reden_max.rds")
+
+
+levels_markt |>
+  map(\(x) {
+    filter(tabel_v3, groep == 'bezoekers', (markt == x | markt == 'totaal')) |>
+      fun_totaal_een(
+        xvar = aandeel,
+        yvar = fct_relevel(fct_reorder(name_tot, aandeel), "anders"),
+        afr = 0
+      ) +
+      guides(color = 'none', fill = 'none') +
+      scale_x_continuous(labels = scales::percent) +
+      facet_wrap(~ fct_relevel(markt, "totaal", after = Inf))
+  }) |>
+  set_names(levels_markt) |>
+  write_rds("07 quarto/02 figuren/fig_v3_redenen_bez.rds")
+
+
 # toevegen : reden ondernemers
 levels_markt |>
   map(\(x) {
@@ -221,63 +160,6 @@ tab_v4_anders <- read_rds("03 intermediate/tab_markten_v4_prod_anders.rds") |>
   group_by(markt) |>
   summarise(v4 = paste(unique(v4_other15), collapse = "; ")) |>
   write_rds("07 quarto/03 data/tab_v4_andereprod.rds")
-
-
-### vraag 4 ondernemers ---
-### ontwikkeling bezoekersaantallen toe of afgenomen
-
-tabel_v4_ond <- read_rds("03 intermediate/tabel_v4a_ond_voorachter.rds")
-
-tabel_v4 <- bind_rows(
-  tabel_v4_ond[["totaal"]] |>
-    add_column(markt = 'totaal'),
-  tabel_v4_ond[["markt"]]
-)
-
-tabel_v4 |>
-  my_stack_figure(vraag = v4a, naam = "v4_ontw_ond")
-
-
-### vraag 5 ondernemers ---
-### osamenwerking ondernemers
-
-tabel_v5_ond <- read_rds("03 intermediate/tabel_v5_ond_samenwerking.rds")
-
-tabel_v5 <- bind_rows(
-  tabel_v5_ond[["totaal"]] |>
-    add_column(markt = 'totaal'),
-  tabel_v5_ond[["markt"]]
-)
-
-levels_markt |>
-  map(\(x) {
-    filter(tabel_v5, markt == x) |>
-      fun_totaal(
-        xvar = aandeel,
-        yvar = fct_rev(jaar),
-        fill = fct_rev(v5),
-        color_pal = os_blauw
-      ) +
-      facet_wrap(~samenwerking_met) +
-      guides(color = 'none', fill = guide_legend(nrow = 2, reverse = T)) +
-      labs(title = x)
-  }) |>
-  set_names(levels_markt) |>
-  write_rds("07 quarto/02 figuren/fig_v5_samenw_ond_markt.rds")
-
-
-test <- tabel_v5_ond[["totaal"]] |>
-  fun_totaal(
-    xvar = aandeel,
-    yvar = fct_rev(jaar),
-    fill = fct_rev(v5),
-    color_pal = os_blauw
-  ) +
-  facet_wrap(~samenwerking_met) +
-  guides(color = 'none', fill = guide_legend(nrow = 2, reverse = T)) +
-  labs(title = "totaal")
-
-write_rds(test, "07 quarto/02 figuren/fig_v5_samenw_ond_totaal.rds")
 
 
 #### vraag 5: voornamelijk markt of winkels

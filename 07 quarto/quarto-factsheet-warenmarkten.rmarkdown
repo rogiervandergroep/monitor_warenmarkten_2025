@@ -1,0 +1,642 @@
+---
+format: 
+  docx:
+    reference-doc: template_warenmarkten.docx
+    fig-format: svg
+    fig-width: 12
+    fig-height: 4
+execute:
+  echo: false
+  warning: false
+  error: false
+params:
+  markt: "Plein 40-45"
+  stadsdeel: "Nieuw-West"
+  type: "markt op meerdere dagen"
+
+---
+
+```{r}
+
+# libs for markdown
+library(knitr)
+library(svglite)
+# libs algemeen
+library(tidyverse)
+library(scales)
+library(patchwork)
+
+source("00 scripts/script 90 losse getallen en woorden in tekst.R")
+
+```
+
+
+
+::: {custom-style = "quarto kop 1"}
+Factsheet `r .QuartoInlineRender(params$markt)`  
+:::
+
+::: {custom-style = "2 Datum"}
+`r Sys.Date()`
+:::
+
+::: {custom-style = "3 Introtekst"}
+In 2025 geven bezoekers van `r .QuartoInlineRender(params$markt)` een `r .QuartoInlineRender(round(rap_bez, 1))` als rapportcijfer om hun algehele waardering uit te spreken over deze markt. Ondernemers geven een `r .QuartoInlineRender(round(rap_ond, 1))`. Gemiddeld is door bezoekers op alle markten een 7.7 als rapportcijfer gegeven en door ondernemers een 7.4.  
+\  
+Dit blijkt uit de interviews die afgenomen zijn op de markten in Amsterdan in het najaar van 2025. Aan bezoekers is gevraagd hoe vaak zij de markt bezoeken, hoe zij deze markt beoordelen en welke verbeterpunten zij hebben. Aan ondernemers is eveneens gevraagd hoe zij de markt waarderen en wat zij zien als verbeterpunten voor de markt. De bevindingen met betrekking tot de `r .QuartoInlineRender(params$markt)` zijn in deze factsheet gepresenteerd.  
+:::
+  
+::: {custom-style = "quarto kop 2"}
+Achtergrond 
+:::
+`r .QuartoInlineRender(params$markt)` ligt in stadsdeel `r .QuartoInlineRender(params$stadsdeel)`. Uit ander onderzoek van Onderzoek en Statistiek (Monitor Detailhandel, een bewonersonderzoek naar consumptiegedrag in de stad), weten we dat in `r .QuartoInlineRender(params$stadsdeel)` de meeste bewoners in dit stadsdeel naar `r .QuartoInlineRender(det_meest)` gaan. Een groot deel van de inwoners uit dit stadsdeel, `r .QuartoInlineRender(round(det_geen*100))`%, gaat niet naar de markt. Van alle inwoners van Amsterdam gaat 33% niet naar de markt (zie figuur 1a). 
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 1a Meest bezochte markten in `r .QuartoInlineRender(params$stadsdeel)` en gemiddeld in Amsterdam, 2025 (percentage genoemd)
+:::
+
+
+```{r}
+
+fig <- read_rds("02 figuren/fig_v_bez_markt_sd.rds")
+
+fig[[params$stadsdeel]]
+```
+
+
+::: {custom-style = "7 Bron"}
+Monitor Detailhandel, 2026
+:::
+  
+
+Bewoners uit Amsterdam die onlangs naar de `r .QuartoInlineRender(params$markt)` zijn gegaan, schatten dat zij de laatste keer in 2025 `r .QuartoInlineRender(round(det_prijs))` euro hebben uitgegeven. In figuur 1c zijn de belangrijkste redenen opgenomen voor bewoners in `r .QuartoInlineRender(params$stadsdeel)` en Amsterdam om niet naar de markt te gaan. 
+
+     
+::: {custom-style = "quarto figuurtitel"}
+Figuur 1b Geschatten uitgaven van bewoners die naar de `r .QuartoInlineRender(params$markt)` zijn geweest en gemiddelde geschatte uitgaven op warenmarkten in Amsterdam, 2019, 2021, 2023 en 2025 (euro's)
+:::
+
+
+```{r}
+
+fig <- read_rds("02 figuren/fig_markt_prijs.rds")
+
+fig[[params$markt]]
+```
+
+
+::: {custom-style = "7 Bron"}
+Monitor Detailhandel, 2026
+:::
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 1c Genoemde redenen voor bewoners `r .QuartoInlineRender(params$stadsdeel)` en gemiddeld in Amsterdam om niet niet naar de markt te gaan, 2025 (percentage genoemd)
+:::
+
+
+```{r, fig.heigt = 5}
+
+fig <- read_rds("02 figuren/fig_redengeen_sd.rds")
+
+fig[[params$stadsdeel]]
+```
+
+
+::: {custom-style = "7 Bron"}
+Monitor Detailhandel, 2026  
+:::
+  
+::: {custom-style = "quarto kop 2"}
+Inleiding 
+:::
+Tussen september 2025 en november 2025 zijn op 19 warenmarkten in Amsterdam in totaal 1.173 bezoekers geinterviewd en 215 ondernemers. Op de `r .QuartoInlineRender(params$markt)` zijn in 2025 `r .QuartoInlineRender(resp_bez)` bezoekers geïnterviewd en `r .QuartoInlineRender(resp_ond)` ondernemers. In figuur 2 is de leeftijdsverdeling van de respondenten weergegeven, met welk vervoermiddel zij naar de markt zijn gekomen en waar zij wonen, verdeeld naar het deel dat in het zelfde stadsdeel woont, het deel dat buiten dit stadsdeel woont en het deel dat buiten Amsterdam woont.  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 2a leeftijdsverdeling, vervoermiddel en herkomst van geinterviewde bezoekers, 2025 (%)
+:::
+
+
+```{r}
+
+# toevoegen lengte ondernemers op de markt 
+
+figuura <- read_rds("02 figuren/fig_leeftijd_bez.rds")
+figuurb <- read_rds("02 figuren/fig_v6_vervoermiddel.rds")
+figuurc <- read_rds("02 figuren/fig_herkomst.rds")
+
+a <- figuura[[params$markt]]
+b <- figuurb[[params$markt]]
+c <- figuurc[[params$markt]]
+
+a+b+c
+```
+
+
+  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 2b leeftijdsverdeling geinterviewde ondernemers, lengte dat ondernemer op de markt staat en of ondernemer vergunninghouder is of sollicitant, 2025 (%)  
+:::
+
+
+```{r}
+
+figuura <- read_rds("02 figuren/fig_leeftijd_ond.rds")
+figuurb <- read_rds("02 figuren/fig_lengte_ond.rds")
+figuurc <- read_rds("02 figuren/fig_v0_vast.rds")
+
+# ![](02 figuren/wordcloud_`r .QuartoInlineRender(params$markt)`.png)
+
+a <- figuura[[params$markt]]
+b <- figuurb[[params$markt]]
+c <- figuurc[[params$markt]]
+
+a+b+c
+```
+
+
+  
+  
+Bezoekers konden bij aanvang van het interview met steekwoorden de `r .QuartoInlineRender(params$markt)` omschrijven. De meest genoemde woorden zijn terug te vinden in de wordcloud hieronder. Ze vormen een grove indicatie over hoe er over deze markt zoal gedacht wordt.
+  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 3 Veel genoemde steekwoorden die bezoekers `r .QuartoInlineRender(params$markt)` noemenden, 2025
+:::
+
+  
+    
+::: {custom-style = "quarto kop 2"}
+Mate van martkbezoek
+:::
+Van de geinterviewde bezoekers van de `r .QuartoInlineRender(params$markt)` gaat `r .QuartoInlineRender(round(freq_bez))`% één keer per week of vaker naar de markt. Bij alle markten in dit onderzoek, gaf de helft van de ginterviewde bezoekers aan minimaal een keer per naar de markt te gaan.   
+  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 4 Bezoekfrequentie `r .QuartoInlineRender(params$markt)` en andere markten, 2017, 2022 en 2025 (%)  
+:::
+
+
+```{r}
+
+fig <- read_rds("02 figuren/fig_v1_freq.rds")
+
+fig[[params$markt]]
+```
+
+
+  
+  
+::: {custom-style = "quarto kop 2"}
+Reden bezoek  
+:::
+In deze paragraaf worden de motivaties van bezoekers besproken om naar de markt te gaan. Vervolgens wordt gekeken in hoeverre bezoekers vooral voor de markt of voor de winkels in dit gebied komen. In onderstaande figuur staan de meest genoemde redenen waarom bezoekers naar de markt gaan. Naast boodschappen doen, geven bezoekers in het algemeen aan de markt te bezoeken vanwege de gezelligheid. De meest genoemde reden volgens bezoekers om naar de `r .QuartoInlineRender(params$markt)` te gaan is, naast boodschapen doen, `r .QuartoInlineRender(v3_bez_max)`. 
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 5 Redenen om volgens bezoekers de `r .QuartoInlineRender(params$markt)` en andere markten te bezoeken, 2025 (percentage genoemd)   
+:::
+
+
+```{r, fig.height = 5}
+
+fig <- read_rds("02 figuren/fig_v3_redenen_bez.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+Bij 'anders namelijk' kunnen bezoekers aangeven welke andere redenen er zijn om naar de `r .QuartoInlineRender(params$markt)` te gaan. De volgende items werden genoemd: 
+  
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(v3_anders)`  
+  
+:::
+  
+Als bezoekers aangaven dat 'gezelligheid' een belangrijke reden is om naar de markt te gaan is gevraagd wat er zoal precies gezellig is op de `r .QuartoInlineRender(params$markt)`. De volgende antwoorden werden gegeven:  
+  
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(v3_gezellig)`  
+  
+:::
+  
+  
+In het algemeen kopen bezoekers groente en fruit op de warenmarkten in Amsterdam. Op de `r .QuartoInlineRender(params$markt)` kopen bezoekers voornamelijk `r .QuartoInlineRender(v4_max)`.     
+   
+::: {custom-style = "quarto figuurtitel"}
+Figuur 6 Producten die bezoekers op de `r .QuartoInlineRender(params$markt)` en andere markten kopen, 2025 (percentage genoemd)  
+:::
+
+
+```{r , fig.width = 12, fig.height = 5}
+
+fig <- read_rds("02 figuren/fig_v4_producten.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+Bij 'anders namelijk' konden bezoekers aangeven welke producten zij nog meer kochten op de markt. Op deze markt werden de volgende genoemd:  
+    
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(v4_anders)`  
+  
+:::
+    
+In onderstaande figuur is aangeven of bezoekers vooral voor de markt of de winkels in het winkelgebied komen. De uitkomsten zijn vergeleken met de bevindingen van alle bezoekers.  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 8 Aandeel bezoekers `r .QuartoInlineRender(params$markt)` dat aangeeft specifiek naar markt te komen dan wel naar winkels, 2017, 2022 en 2025 (%)  
+:::
+
+
+```{r}
+
+fig <- read_rds("02 figuren/fig_v5_markt_winkels.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+Aan bezoekers is gevraagd of zij nog andere markten bezoeken. Van de bezoekers op de `r .QuartoInlineRender(params$markt)` geeft `r .QuartoInlineRender(round(geenmarkt*100))`% aan geen andere markt te bezoeken. De `r .QuartoInlineRender(meestanderemarkt)` wordt het vaakst genoemd als markt die bezoekers op deze markt ook bezoeken.  
+    
+::: {custom-style = "quarto figuurtitel"}
+Figuur 9 Meest genoemde andere markten die bezoekers `r .QuartoInlineRender(params$markt)` ook bezoeken, 2025 (percentage genoemd)  
+:::
+
+
+```{r , fig.width = 6, fig.height = 3, out.width = "50%"}
+
+fig <- read_rds("02 figuren/fig_v14_anderemarkt.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+::: {custom-style = "quarto kop 2"}
+Oordeel over de markt volgens bezoekers  
+:::
+  
+Aan bezoekers is gevraagd hoe zij het aanbod waarderen op de `r .QuartoInlineRender(params$markt)`. Van de bezoekers geeft `r .QuartoInlineRender(round(v8_goed*100))`% aan het aanbod goed te vinden. Gemiddeld vindt 49% het aanbod op de markten in Amsterdam goed. Als bezoekers aangaven het aanbod onvoldoende te vinden is gevraagd naar de redenen hiervoor en wat zij dan zoal missen. In het algemeen geven bezoekers aan bepaalde producten te missen op 'hun' markt. Op de `r .QuartoInlineRender(params$markt)` wordt '`r .QuartoInlineRender(tab_v9_max)`' het vaakst genoemd als reden om hier ontevreden te zijn. 
+  
+Tot slot was in dit deel van de enquete gevraagd wat er zou moeten gebeuren om vaker naar de markt te gaan. In veel gevallen geven bezoekers aan dat er meer variatie moet komen met betrekking tot food als non-food.  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 9 Aandeel bezoekers `r .QuartoInlineRender(params$markt)` dat het aanbod op deze markt goed dan wel niet goed vindt, 2017, 2022 en 2025 (%)  
+:::
+
+
+```{r}
+
+fig <- read_rds("02 figuren/fig_v8_tevr.rds")
+fig[[params$markt]]
+
+```
+
+
+    
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 10 Genoemde redenen door bezoekers `r .QuartoInlineRender(params$markt)` om ontevreden te zijn, 2025 (%)  
+:::
+
+
+```{r }
+
+fig <- read_rds("02 figuren/fig_v9_ontevr.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+Andere genoemde reden om volgens bezoekers op deze markt ontevreden te zijn, zijn de volgende:  
+    
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(tab_open$v9_open)`  
+  
+:::
+  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 11 Zaken die bezoekers van de  `r .QuartoInlineRender(params$markt)` missen, 2025 (%)  
+:::
+
+
+```{r, fig.height = 5}
+
+fig <- read_rds("02 figuren/fig_v11_mist_bez.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+Andere genoemde zaken die bezoekers op deze markt missen, zijn de volgende
+    
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(tab_open$v10_other14)` 
+   
+`r .QuartoInlineRender(tab_open$v10_other15)`  
+  
+:::
+  
+
+::: {custom-style = "quarto figuurtitel"}
+Figuur 12 Wat zou volgens bezoekers op `r .QuartoInlineRender(params$markt)` helpen om vaker naar de markt te komen, 2025 (percentage genoemd)  
+:::
+
+
+```{r , fig.width = 12, fig.height = 5}
+
+fig <- read_rds("02 figuren/fig_v12_helpen.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+Wanneer bezoekers aangaven dat de markt ook open zou moeten zijn op andere dagen werden de volgende suggesties gegeven `r .QuartoInlineRender(tab_open$v12_other1)`   
+  
+  
+Andere genoemde suggesties die bezoekers aangaven om vaker naar de markt te komen zijn de volgende:  
+    
+::: {custom-style = "Tekstvak grijs"}
+   
+`r .QuartoInlineRender(tab_open$v12_other6)`  
+   
+:::
+  
+  
+::: {custom-style = "quarto kop 2"}
+Oordeel over de markt volgens ondernemers  
+:::
+  
+Wat zijn volgens de ondernemers de belangrijkste redenen zijn om naar de `r .QuartoInlineRender(params$markt)` gaan? Veel ondernemers noemen de gezelligheid naast boodschappen doen als reden. De meest genoemde reden volgens ondernemers op de `r .QuartoInlineRender(params$markt)` om naar de markt te komen is '`r .QuartoInlineRender(v3_ond_max)`'.  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 13 Redenen van bezoek volgens ondernemers op `r .QuartoInlineRender(params$markt)` en andere markten, 2025 (percentage genoemd)
+:::
+
+
+```{r , fig.width = 12, fig.height = 5}
+
+fig <- read_rds("02 figuren/fig_v3_redenen_ond.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+Aan de ondernemers is gevraagd in hoeverre zij menen dat het bezoekersaantal de afgelopen jaren is toegenomen dan wel afgenomen. Bijna één op de drie ondernemers meent dat het aantal bezoekers is toegenomen. Op de `r .QuartoInlineRender(params$markt)` is dat `r .QuartoInlineRender(round(tab_v3_toename*100))`%. `r .QuartoInlineRender(round(tab_v3_afname*100))`% ziet een afname van het aantal bezoekers.
+   
+::: {custom-style = "quarto figuurtitel"}
+figuur 14 aandeel ondernemers dat meent dat bezoekeraantallen zijn toe of afgenomen, 2025 (%)  
+:::
+
+
+```{r}
+
+fig <- read_rds("02 figuren/fig_v4_ontw_ond.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+**Genoemde toelichtingen bij veronderstelde toename van bezoekers**  
+  
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(tab_v4b_toename)`  
+  
+:::
+    
+**Genoemde toelichtingen bij veronderstelde afname van bezoekers**  
+  
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(tab_v4b_afname)`  
+  
+:::
+  
+  
+Aan ondernemers is de vraag gesteld in hoeverre zij hun markt beter of slechter vinden ten opzichte van andere markten in amsterdam. In het algemeen vindt bijna de helft van de ondernemers dat hun markt er beter voor staat dan andere markten in Amsterdam. Op de `r .QuartoInlineRender(params$markt)` is dat `r .QuartoInlineRender(round(tab_v7_max*100))`%. Daarnaast is gekeken wat ondernemers op deze markt zoal missen.  
+   
+::: {custom-style = "quarto figuurtitel"}
+Figuur 15 aandeel ondernemers dat meent dat hun markt beter dan wel slechter scoort ten opzichte van andere markten, 2025(%)  
+:::
+
+
+```{r , fig.width = 12, fig.height = 4}
+
+fig <- read_rds("02 figuren/fig_v7_beterslechter.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 16 Zaken die ondernemers op de markt missen, 2025 (%)  
+:::
+
+
+```{r , fig.height = 5}
+
+fig <- read_rds("02 figuren/fig_v11_mist_ond.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+   
+Aan ondernemers op deze markt is gevraagd in hoeverre zij tevreden zijn met de samenwerking andere groepen belanghebbenden, waaronder andere marktondernemers, winkeliers en horecaondernemers en gemeente en stadsdeel.  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 17 Samenwerking ondernemers `r .QuartoInlineRender(params$markt)` met andere groepen, 2017, 2022 en 2025 (%)  
+:::
+
+
+```{r , fig.width = 12, fig.height = 5}
+
+fig <- read_rds("02 figuren/fig_v5_samenw_ond_markt.rds")
+fig[[params$markt]]
+
+```
+
+
+    
+  
+De volgende toelichtingen werden gegeven bij de vraag hoe ondernemers de samenwerking met andere groepen ervaren.    
+   
+::: {custom-style = "Tekstvak grijs"}
+
+`r .QuartoInlineRender(tab_v6_toelichting)`  
+  
+:::
+  
+  
+Wat vinden ondernemers van het hypothetische idee dat de markt op afstand komt te staan? Ruim de helft van de geinterviewde ondernemers staat daar negatief tegenover. Bij `r .QuartoInlineRender(params$markt)` is dat `r .QuartoInlineRender(round(tab_v15_neg_afst*100))`%. Daarnaast is aan ondernemers gevraagd of zij er van uit gaan dat zij over tien jaar nog op deze markt staan. In totaal ziet 59% van de ondernemers zich tegen die tijd nog op de markt staan. Bij Plein 40-45 is dat `r .QuartoInlineRender(round(tab_v16_tienjr*100))`%.  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 18 Wat vinden ondernemers van het idee om op afstand te functioneren (links) en denkt ondernemer over tien jaar nog op de markt tge staan (rechts), 2025 (%)  
+:::
+
+
+```{r}
+
+figa <- read_rds("02 figuren/fig_v15_opafstand.rds")
+a <- figa[[params$markt]]
+
+figb<- read_rds("02 figuren/fig_v16_tienjaar.rds")
+b <- figb[[params$markt]]
+
+a+b
+
+```
+
+
+  
+  
+De volgende toelichtingen werden gegeven door ondernemers op de `r .QuartoInlineRender(params$markt)` bij de vraag of zij zich nog over tien jaar op de martk zien staan
+  
+**Toelichtingen van ondernemers die zichzelf (waarschijnlijk) wel nog op de markt zien staan over tien jaar**   
+
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(tab_v16_open_ja)`  
+  
+:::
+  
+**Toelichtingen van ondernemers die zichzelf (waarschijnlijk) niet meer op de markt staan over tien jaar**  
+  
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(tab_v16_open_nee)`  
+  
+:::
+  
+  
+Aan de ondernemers is gevraagd wat het sterkste punt is op de markt en het zwakste punt. De volgende antwoorden werden gegeven bij deze twee vragen.  
+  
+  
+**Sterke punten van de markt volgens ondernemers**  
+
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(tab_v11_sterk)`  
+  
+:::
+  
+**verbeterpunten van de markt volgens ondernemers**  
+
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(tab_v12_zwak)`  
+  
+:::
+  
+
+::: {custom-style = "quarto kop 2"}
+Rapportcijfers
+:::
+Al sinds 2016 is gevraagd om de markt te beoordelen met hulp van rapportcijfers. Zo ook in het najaar van 2025, toen bezoekers en ondernemers de markt konden beoordelen op meerdere items. Hieronder is aangeveven in hoeverre de `r .QuartoInlineRender(params$markt)` scoort ten opzichte van andere markten. In 2025 geven bezoekers van `r .QuartoInlineRender(params$markt)` een `r .QuartoInlineRender(round(rap_bez, 1))` als rapportcijfer om hun algehele waardering uit te spreken over deze markt. Ondernemers geven een `r .QuartoInlineRender(round(rap_ond, 1))`. Gemiddeld is door bezoekers op alle markten een 7.7 als rapportcijfer gegeven en door ondernemers een 7.4.  
+    
+::: {custom-style = "quarto figuurtitel"}
+Figuur 19 Oordeel bezoekers `r .QuartoInlineRender(params$markt)` en gemiddeld, 2025 (percentage genoemd)
+:::
+
+
+```{r , fig.width = 12, fig.height = 5}
+
+fig <- read_rds("02 figuren/fig_rapportcijfers_bez.rds")
+fig[[params$markt]]
+
+```
+
+
+  
+  
+       
+::: {custom-style = "quarto figuurtitel"}
+Figuur 20 Oordeel ondernemers `r .QuartoInlineRender(params$markt)` en gemiddeld, 2026 (percentage genoemd)
+:::
+
+
+```{r , fig.width = 12, fig.height = 5}
+
+fig <- read_rds("02 figuren/fig_rapportcijfers_ond.rds")
+fig[[params$markt]]
+
+```
+
+
+    
+::: {custom-style = "quarto kop 2"}
+Bezettingsgraden op de markt
+:::
+  
+Uit gegevevens van het Marktbureau blijkt dat ongeveer xxx ondernemer geregistreerd staan als verkoper op de markt. Tussen januari 2025 en oktober 2025 was de bezettingsgraad x% tegenover gemiddeld y% voor alle warenmarkten.  
+  
+::: {custom-style = "quarto figuurtitel"}
+Figuur 21 Bezettingsgraden `r .QuartoInlineRender(params$markt)` op de markt tussen januari 2026 en september 2026 (rapportcijfers)
+:::
+
+
+```{r , fig.width = 12, fig.height = 6, out.width = "50%"}
+
+fig <- read_rds("02 figuren/fig_bezettingsgraden.rds")
+fig[[params$markt]]
+```
+
+
+::: {custom-style = "7 Bron"}
+Marktbureau EZ, 2025
+:::
+
+Ondernemers en bezoekers konden ook nog een laatste opmerking meegeven ter afsluiting van het interview. De volgende antwoorden werden gegeven.  
+  
+**opmerkingen van bezoekers**  
+  
+::: {custom-style = "Tekstvak grijs"}
+  
+`r .QuartoInlineRender(tab_bez_opm)`   
+  
+:::
+  
+::: {custom-style = "Tekstvak grijs"}
+  
+**opmerkingen van ondernemers**  
+  
+`r .QuartoInlineRender(tab_ond_opm)`  
+  
+:::
+  
+   
+colofon  
+  
+Rogier van der Groep  
+  
+
+
+

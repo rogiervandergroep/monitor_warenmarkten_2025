@@ -1,78 +1,4 @@
-### frequentie monitor detailhandel
-
-# source("04 scripts 26/00 scr/script 00 functies.R")
-source("04 scripts 26/00 scr/script 00 levels.R")
-source("04 scripts 26/00 scr/script 00 plot functies.R")
-
-os_blauw <- c(
-  "#e6e6e6",
-  "#dcddee",
-  "#b8bcdd",
-  "#959dcc",
-  "#707ebb",
-  "#4861aa",
-  "#004699"
-)
-
-my_markt_selection <- function(x, markt_selectie) {
-  bind_rows(
-    # markt
-    x |>
-      filter(groep == 'bezoekers') |>
-      filter(markt == markt_selectie) |>
-      filter(leefklas == 'totaal') |>
-      filter(locatie == 'totaal'),
-
-    # totaal
-    x |>
-      filter(
-        groep == 'bezoekers',
-        markt == 'totaal',
-        type_markt2 == 'totaal',
-        leefklas == 'totaal',
-        locatie == 'totaal'
-      ),
-
-    # meerdaags of eendaags
-    x |>
-      filter(
-        groep == 'bezoekers',
-        markt == 'totaal',
-        leefklas == 'totaal',
-        locatie == 'totaal'
-      ) |>
-      filter(
-        if (markt_selectie %in% levels_markt_eendaags) {
-          type_markt2 == 'eendaagse markt'
-        } else {
-          type_markt2 == 'markt op meerdere dagen'
-        }
-      ) |>
-      dplyr::select(-c("markt")) |>
-      rename(markt = type_markt2)
-  )
-}
-
-
-## stack figuur markt links totaal rechts
-
-my_stack_figure <- function(tabel, vraag, naam) {
-  levels_markt |>
-    map(\(x) {
-      filter(tabel, markt %in% c(x, "totaal")) |>
-        fun_totaal(
-          xvar = aandeel,
-          yvar = fct_rev(jaar),
-          fillvar = fct_rev({{ vraag }}),
-          color_pal = os_blauw
-        ) +
-
-        facet_wrap(~ fct_relevel(markt, "totaal", after = Inf)) +
-        guides(color = 'none', fill = guide_legend(nrow = 2, reverse = T))
-    }) |>
-    set_names(levels_markt) |>
-    write_rds(glue::glue("07 quarto/02 figuren/fig_{ naam }.rds"))
-}
+source("07 quarto/00 scripts/script 00 plot functies.R")
 
 #### vraag respons ---
 
@@ -85,26 +11,9 @@ tabel_respons_totaal <- tabel_respons[['totaal']] |>
 tabel_respons_totaal |>
   ungroup() |>
   filter(jaar == 'jaar 2025') |>
-  select(markt, name, value) |>
+  dplyr::select(markt, name, value) |>
   write_rds("07 quarto/03 data/tab_respons.rds")
 
-
-levels_markt |>
-  map(\(x) {
-    filter(tabel_respons_totaal, markt == x) |>
-      fun_totaal_een(
-        xvar = value,
-        yvar = fct_rev(jaar),
-        afr = 0
-      ) +
-      facet_wrap(
-        ~name,
-        nrow = 1
-      ) +
-      guides(color = 'none', fill = 'none')
-  }) |>
-  set_names(levels_markt) |>
-  write_rds("07 quarto/02 figuren/fig_v0_respons.rds")
 
 # toevoegen lft en herkomst
 
@@ -125,37 +34,20 @@ tab_lft_ond <- tab_lft |>
 # figuur leeftijd bez
 levels_markt |>
   map(\(x) {
-    filter(tab_lft_bez, markt %in% c(x, "totaal")) |>
+    filter(tab_lft, markt %in% c(x, "totaal")) |>
       fun_totaal(
         xvar = aandeel,
         yvar = fct_relevel(markt, "totaal"),
         fillvar = fct_rev(leefklas),
         color_pal = os_blauw[c(1, 3:7)]
       ) +
-      labs(title = "leeftijd") +
       theme_os(legend_position = "bottom") +
+      facet_wrap(~groep) +
       guides(color = 'none', fill = guide_legend(ncol = 2, reverse = T))
   }) |>
   set_names(levels_markt) |>
-  write_rds(glue::glue("07 quarto/02 figuren/fig_leeftijd_bez.rds"))
+  write_rds(glue::glue("07 quarto/02 figuren/fig_leeftijd.rds"))
 
-
-# figuur leeftijd ond
-levels_markt |>
-  map(\(x) {
-    filter(tab_lft_ond, markt %in% c(x, "totaal")) |>
-      fun_totaal(
-        xvar = aandeel,
-        yvar = fct_relevel(markt, "totaal"),
-        fillvar = fct_rev(leefklas),
-        color_pal = os_blauw[c(1, 3:7)]
-      ) +
-      labs(title = "leeftijd") +
-      theme_os(legend_position = "bottom") +
-      guides(color = 'none', fill = guide_legend(ncol = 2, reverse = T))
-  }) |>
-  set_names(levels_markt) |>
-  write_rds(glue::glue("07 quarto/02 figuren/fig_leeftijd_ond.rds"))
 
 ### herkomst bezoekers
 tab_herk <- tabel_respons[["locatie"]] |>
@@ -181,6 +73,39 @@ levels_markt |>
   set_names(levels_markt) |>
   write_rds(glue::glue("07 quarto/02 figuren/fig_herkomst.rds"))
 
+### thuissituatie
+
+levels_markt |>
+  map(\(x) {
+    filter(tabel_respons[["arbeidsmarkt"]], markt %in% c(x, "totaal")) |>
+      fun_totaal(
+        xvar = aandeel,
+        yvar = fct_relevel(markt, "totaal"),
+        fillvar = fct_rev(v16),
+        color_pal = os_blauw
+      ) +
+      labs(title = "herkomst") +
+      guides(color = 'none', fill = guide_legend(ncol = 1, reverse = T))
+  }) |>
+  set_names(levels_markt)
+
+
+levels_markt |>
+  map(\(x) {
+    filter(tabel_respons[["huishoudsituatie"]], markt %in% c(x, "totaal")) |>
+      fun_totaal(
+        xvar = aandeel,
+        yvar = fct_relevel(markt, "totaal"),
+        fillvar = fct_rev(thuissituatie),
+        color_pal = os_blauw
+      ) +
+      labs(title = "herkomst") +
+      guides(color = 'none', fill = guide_legend(ncol = 1, reverse = T))
+  }) |>
+  set_names(levels_markt)
+
+
+#### ONDERNEMERS ---
 
 # figuur hoe lang staat u op de markt
 tab_ond_lengte <- tabel_respons[["ond_lengte"]] |>
@@ -193,8 +118,9 @@ levels_markt |>
         xvar = aandeel,
         yvar = fct_relevel(markt, "totaal"),
         fillvar = fct_rev(v1),
-        color_pal = os_blauw[c(1, 3:7)]
+        color_pal = os_blauw[c(2, 4:7)]
       ) +
+      guides(color = 'none', fill = guide_legend(ncol = 2, reverse = T)) +
       labs(title = "lengte op de markt")
   }) |>
   set_names(levels_markt) |>
@@ -214,7 +140,7 @@ levels_markt |>
         color_pal = os_blauw[c(1, 5, 7)]
       ) +
       labs(title = "vergunninghouder of sollicitant") +
-      guides(color = 'none', fill = guide_legend(nrow = 2, reverse = T))
+      guides(color = 'none', fill = guide_legend(ncol = 1, reverse = T))
   }) |>
   set_names(levels_markt) |>
   write_rds("07 quarto/02 figuren/fig_v0_vast.rds")

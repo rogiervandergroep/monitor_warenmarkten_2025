@@ -74,6 +74,58 @@ respons[["locatie"]] <- bind_rows(
     )
 )
 
+### hercoderen huishoudsituatie en bezigheid
+
+markt_list[["26_bez"]] <- markt_list[["26_bez"]] |>
+  mutate(
+    thuissituatie = case_when(
+      v17 == "eenpersoonshuishouden" ~ "eenpersoonshuishouden",
+      v17 == "(echt)paar zonder kinderen thuis" ~ "paar zonder kinderen",
+      v17 == "(echt)paar met kind(eren) thuis" ~ "paar met kinderen",
+      v17 == "één ouder met kind(eren) thuis" ~ "eenouderhuishouden",
+      TRUE ~ "anders of onbekend"
+    )
+  )
+
+# naar huishoudsituatie
+respons[["huishoudsituatie"]] <- bind_rows(
+  markt_list[["26_bez"]] |>
+    group_by(jaar, type_markt2, markt, groep, thuissituatie) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, type_markt2, markt, groep) |>
+    mutate(aandeel = aantal / sum(aantal)),
+
+  markt_list[["26_bez"]] |>
+    group_by(jaar, groep, thuissituatie) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, groep) |>
+    mutate(aandeel = aantal / sum(aantal)) |>
+    add_column(
+      type_markt2 = 'totaal',
+      markt = 'totaal'
+    )
+)
+
+
+# naar arbeidsmarktrelatie
+respons[["arbeidsmarkt"]] <- bind_rows(
+  markt_list[["26_bez"]] |>
+    group_by(jaar, type_markt2, markt, groep, v16) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, type_markt2, markt, groep) |>
+    mutate(aandeel = aantal / sum(aantal)),
+
+  markt_list[["26_bez"]] |>
+    group_by(jaar, groep, v16) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, groep) |>
+    mutate(aandeel = aantal / sum(aantal)) |>
+    add_column(
+      type_markt2 = 'totaal',
+      markt = 'totaal'
+    )
+)
+
 
 ### kenmerken ondernemers ---
 

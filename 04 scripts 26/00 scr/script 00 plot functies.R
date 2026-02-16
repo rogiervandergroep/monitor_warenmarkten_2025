@@ -47,12 +47,14 @@ fun_totaal <- function(
         label = if_else({{ xvar }} > 0.04, round({{ xvar }} * 100), NA),
         color = {{ fillvar }}
       ),
+      size = 4.5,
       position = position_stack(vjust = 0.5),
       family = font,
       lineheight = .8
     ) +
     labs(y = NULL, x = NULL) +
     theme_os(orientation = 'horizontal') +
+    theme(text = element_text(size = 16)) +
     scale_fill_manual(name = NULL, values = color_pal) +
     scale_color_manual(name = NULL, values = label_col) +
     scale_x_continuous(labels = scales::percent) +
@@ -82,6 +84,7 @@ fun_totaal_een <- function(x, xvar, yvar, verm_factor = 100, afr = 0) {
         label = round({{ xvar }} * verm_factor, afr)
       ),
       hjust = 1.5,
+      size = 4.5,
       family = font,
       color = "white",
       lineheight = .8
@@ -89,6 +92,7 @@ fun_totaal_een <- function(x, xvar, yvar, verm_factor = 100, afr = 0) {
 
     labs(title = NULL, x = NULL, y = NULL) +
     theme_os(orientation = 'horizontal') +
+    theme(text = element_text(size = 16)) +
     scale_fill_manual(name = NULL, values = blauw_pal[2]) +
     guides(fill = guide_legend(reverse = T))
 }

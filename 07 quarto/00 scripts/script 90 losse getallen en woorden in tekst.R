@@ -32,6 +32,27 @@ det_prijs <- read_rds("03 data/tabellen_markt_prijs.rds") |>
   select(uitgaven) |>
   pull()
 
+
+### v3 reden bezoek volgens bezoeker en ondernemers
+
+# anders
+v3_bez_max <- read_rds("03 data/tab_v3_reden_max.rds") |>
+  filter(
+    groep == 'bezoekers',
+    markt == params$markt
+  ) |>
+  select(name_tot) |>
+  pull()
+
+v3_ond_max <- read_rds("03 data/tab_v3_reden_max.rds") |>
+  filter(
+    groep == 'ondernemers',
+    markt == params$markt
+  ) |>
+  select(name_tot) |>
+  pull()
+
+
 # open antwoorden vraag 3 rfeden bezoek
 
 # anders
@@ -65,6 +86,23 @@ tab_open <- read_rds("03 data/tab_openant.rds") |>
       pull()
   })
 
+### redenen bezoeker ontevrden
+tab_v9_max <- read_rds("03 data/tab_v9_reden_ont_max.rds") |>
+  filter(markt == params$markt) |>
+  select(labels) |>
+  pull()
+
+# aandeel toegenomen en afgenomen
+tab_v3_afname <- read_rds("03 data/tab_ond_v4_afname.rds") |>
+  filter(markt == params$markt) |>
+  select(aandeel) |>
+  pull()
+
+tab_v3_toename <- read_rds("03 data/tab_ond_v4_toename.rds") |>
+  filter(markt == params$markt) |>
+  select(aandeel) |>
+  pull()
+
 
 # open antwoorden bij vraag of er sprake if van toename of afname bezoekers
 tab_v4b_toename <- read_rds("03 data/tab_reden_on_4b.rds") |>
@@ -89,6 +127,13 @@ tab_v6_toelichting <- read_rds("03 data/tab_v6_ond_toel.rds") |>
   select(v6_open) |>
   pull()
 
+# v7 aaandeel beter en veel beter dan andere markten
+tab_v7_max <- read_rds("03 data/tab_ond_v7_max.rds") |>
+  filter(markt == params$markt) |>
+  select(aandeel) |>
+  pull()
+
+
 # sterk en zwakke punten volgens ondernemers -
 
 tab_v11_sterk <- read_rds("03 data/tab_v11_sterk_open.rds") |>
@@ -103,6 +148,17 @@ tab_v12_zwak <- read_rds("03 data/tab_v12_zwak_open.rds") |>
     markt == params$markt
   ) |>
   select(v12_open) |>
+  pull()
+
+#33 aandeel negatief afstand
+tab_v15_neg_afst <- read_rds("03 data/tab_ond_v15_afst.rds") |>
+  filter(markt == params$markt) |>
+  select(aandeel) |>
+  pull()
+
+tab_v16_tienjr <- read_rds("03 data/tab_ond_v16_tienjr.rds") |>
+  filter(markt == params$markt) |>
+  select(aandeel) |>
   pull()
 
 

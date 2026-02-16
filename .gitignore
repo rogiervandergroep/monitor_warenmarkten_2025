@@ -50,9 +50,10 @@ po/*~
 rsconnect/
 
 # OS achtergrondfiles
-kort-rapport.dotx.url
-kort-rapport.dotx
-*.docx.url
+07 quarto/kort-rapport.dotx.url
+07 quarto/kort-rapport.dotx
+07 quarto/template_warenmarkten.docx
+
 
 
 
@@ -66,6 +67,13 @@ kort-rapport.dotx
 07 quarto/01 intermediate/
 07 quarto/02 figuren/
 07 quarto/03 data/
+07 quarto/quarto-factsheet-warenmarkten_files
+07 quarto/*.docx
+07 quarto/*.xlsx
+
+Factsheet Warenmarkten Plein 40 45 CONCEPT.docx
+.docx
+
 rosm.cache/
 
 # bestanden voor stemming

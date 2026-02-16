@@ -1,60 +1,4 @@
-### data monitor detialhandel
-library(tidyverse)
-
-### frequentie monitor detailhandel
-
-# source("04 scripts 26/00 scr/script 00 functies.R")
-source("04 scripts 26/00 scr/script 00 levels.R")
-source("04 scripts 26/00 scr/script 00 plot functies.R")
-
-os_blauw <- c(
-  "#e6e6e6",
-  "#dcddee",
-  "#b8bcdd",
-  "#959dcc",
-  "#707ebb",
-  "#4861aa",
-  "#004699"
-)
-
-my_markt_selection <- function(x, markt_selectie) {
-  bind_rows(
-    # markt
-    x |>
-      filter(groep == 'bezoekers') |>
-      filter(markt == markt_selectie) |>
-      filter(leefklas == 'totaal') |>
-      filter(locatie == 'totaal'),
-
-    # totaal
-    x |>
-      filter(
-        groep == 'bezoekers',
-        markt == 'totaal',
-        type_markt2 == 'totaal',
-        leefklas == 'totaal',
-        locatie == 'totaal'
-      ),
-
-    # meerdaags of eendaags
-    x |>
-      filter(
-        groep == 'bezoekers',
-        markt == 'totaal',
-        leefklas == 'totaal',
-        locatie == 'totaal'
-      ) |>
-      filter(
-        if (markt_selectie %in% levels_markt_eendaags) {
-          type_markt2 == 'eendaagse markt'
-        } else {
-          type_markt2 == 'markt op meerdere dagen'
-        }
-      ) |>
-      dplyr::select(-c("markt")) |>
-      rename(markt = type_markt2)
-  )
-}
+source("07 quarto/00 scripts/script 00 plot functies.R")
 
 
 df_det <- read_rds("03 intermediate/tabellen_markt_basis.RDS")
@@ -154,8 +98,7 @@ levels_stadsdeel_zwp |>
       guides(color = 'none', fill = 'none') +
       scale_x_continuous(labels = scales::percent) +
       facet_wrap(
-        ~ fct_relevel(achtergrond_type, "totaal", after = Inf),
-        scales = 'free_y'
+        ~ fct_relevel(achtergrond_type, "totaal", after = Inf)
       )
   }) |>
   set_names(levels_stadsdeel_zwp) |>
