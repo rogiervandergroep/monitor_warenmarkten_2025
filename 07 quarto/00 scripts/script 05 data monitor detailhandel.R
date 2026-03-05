@@ -117,11 +117,11 @@ df_markt_prijs <- df_markt_prijs |>
       markt == "Haarlemmerpleinmarkt" ~ "Haarlemmerplein",
       markt == "Kraaiennestmarkt" ~ "Kraaiennest",
       markt == "Lindengrachtmarkt" ~ "Lindengracht",
-      markt == "Plein 40-45 markt" ~ "Plein 40-45",
+      markt == "Plein 40-45 markt" ~ "Plein '40-'45",
       markt == "Reigersbosmarkt" ~ "Reigersbos",
       markt == "Stadionplein" ~ "Stadionpleinmarkt",
       markt == "Ten Katestraatmarkt" ~ "Ten Katemarkt",
-      markt == "Tussen Meer markt" ~ "Tussenmeer",
+      markt == "Tussen Meer markt" ~ "Tussen Meer",
       markt == "Van Eesterenlaanmarkt" ~ "Biomarkt Zeeburg",
       TRUE ~ markt
     )

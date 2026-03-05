@@ -74,6 +74,50 @@ respons[["locatie"]] <- bind_rows(
     )
 )
 
+respons[["locatie"]] <- bind_rows(
+  my_bind_rows(groupvars = c("type_markt2")) |>
+    group_by(jaar, type_markt2, markt, groep, locatie) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, type_markt2, markt, groep) |>
+    mutate(aandeel = aantal / sum(aantal)),
+
+  my_bind_rows(groupvars = NULL) |>
+    group_by(jaar, groep, locatie) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, groep) |>
+    mutate(aandeel = aantal / sum(aantal)) |>
+    add_column(
+      type_markt2 = 'totaal',
+      markt = 'totaal'
+    )
+)
+
+respons[["wijk"]] <- bind_rows(
+  my_bind_rows(groupvars = c("type_markt2")) |>
+    group_by(
+      jaar,
+      type_markt2,
+      markt,
+      groep,
+      gebied_wijk_code,
+      gebied_wijk_naam
+    ) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, type_markt2, markt, groep) |>
+    mutate(aandeel = aantal / sum(aantal)),
+
+  my_bind_rows(groupvars = NULL) |>
+    group_by(jaar, groep, gebied_wijk_code, gebied_wijk_naam) |>
+    summarise(aantal = n()) |>
+    group_by(jaar, groep) |>
+    mutate(aandeel = aantal / sum(aantal)) |>
+    add_column(
+      type_markt2 = 'totaal',
+      markt = 'totaal'
+    )
+)
+
+
 ### hercoderen huishoudsituatie en bezigheid
 
 markt_list[["26_bez"]] <- markt_list[["26_bez"]] |>

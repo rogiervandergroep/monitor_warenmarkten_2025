@@ -33,8 +33,15 @@ df_markt_v1 <- my_bind_rows(groupvars = "v1") |>
           'minder dan 1 keer per maand',
           'minder dan 1 keer maand'
         ) ~ 'minder dan 1 keer per maand',
-      is.na(v1) ~ 'weet niet, geen antwoord',
-      v1 == 'niet ingevuld' ~ 'weet niet, geen antwoord',
+      is.na(v1) & groep == 'bezoekers' ~ 'zelden',
+      is.na(v1) & groep == 'ondernemers' ~ 'weet niet',
+
+      v1 == 'weet niet, geen antwoord' & groep == 'bezoekers' ~ 'zelden',
+      v1 == 'weet niet, geen antwoord' & groep == 'ondernemers' ~ 'weet niet',
+
+      v1 == 'niet ingevuld' & groep == 'bezoekers' ~ 'zelden',
+      v1 == 'niet ingevuld' & groep == 'ondernemers' ~ 'weet niet',
+
       TRUE ~ v1
     )
   ) |>
@@ -55,7 +62,7 @@ freq_levels_bez <- c(
   "1 keer per maand",
   "minder dan 1 keer per maand",
   "zelden",
-  "weet niet, geen antwoord"
+  "weet niet"
 )
 
 freq_levels_ond <- c(
@@ -64,7 +71,7 @@ freq_levels_ond <- c(
   "3 tot en met 5 jaar",
   "6 tot en met 10 jaar",
   "langer dan 10 jaar",
-  "weet niet, geen antwoord"
+  "weet niet"
 )
 
 

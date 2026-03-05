@@ -15,6 +15,19 @@ source("04 scripts 26/00 scr/script 00 levels.R")
 source("04 scripts 26/00 scr/script 00 plot functies.R")
 
 
+my_markt_rename <- function(x) {
+  x |>
+    mutate(
+      markt = case_when(
+        markt == "totaal" ~ "alle markten",
+        markt == "Plein 40-45" ~ "Plein '40-'45",
+        markt == "Tussenmeer" ~ "Tussen Meer",
+        TRUE ~ markt
+      )
+    )
+}
+
+
 my_markt_selection <- function(x, markt_selectie) {
   bind_rows(
     # markt
@@ -28,7 +41,7 @@ my_markt_selection <- function(x, markt_selectie) {
     x |>
       filter(
         groep == 'bezoekers',
-        markt == 'totaal',
+        markt == 'alle markten',
         type_markt2 == 'totaal',
         leefklas == 'totaal',
         locatie == 'totaal'
@@ -38,7 +51,7 @@ my_markt_selection <- function(x, markt_selectie) {
     x |>
       filter(
         groep == 'bezoekers',
-        markt == 'totaal',
+        markt == 'alle markten',
         leefklas == 'totaal',
         locatie == 'totaal'
       ) |>
@@ -59,14 +72,14 @@ my_markt_selection <- function(x, markt_selectie) {
 my_stack_figure <- function(tabel, vraag, naam) {
   levels_markt |>
     map(\(x) {
-      filter(tabel, markt %in% c(x, "totaal")) |>
+      filter(tabel, markt %in% c(x, "alle markten")) |>
         fun_totaal(
           xvar = aandeel,
           yvar = fct_rev(jaar),
           fillvar = fct_rev({{ vraag }}),
           color_pal = os_blauw
         ) +
-        facet_wrap(~ fct_relevel(markt, "totaal", after = Inf)) +
+        facet_wrap(~ fct_relevel(markt, "alle markten", after = Inf)) +
         guides(color = 'none', fill = guide_legend(nrow = 2, reverse = T))
     }) |>
     set_names(levels_markt) |>
@@ -77,10 +90,10 @@ my_stack_figure <- function(tabel, vraag, naam) {
 my_stack_figure_eenjaar <- function(tabel, vraag, naam) {
   levels_markt |>
     map(\(x) {
-      filter(tabel, markt %in% c(x, "totaal")) |>
+      filter(tabel, markt %in% c(x, "alle markten")) |>
         fun_totaal(
           xvar = aandeel,
-          yvar = fct_relevel(markt, 'totaal'),
+          yvar = fct_relevel(markt, 'alle markten'),
           fillvar = fct_rev({{ vraag }}),
           color_pal = os_blauw
         ) +

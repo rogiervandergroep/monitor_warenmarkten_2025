@@ -12,16 +12,39 @@ grDevices::windowsFonts(
 )
 font <- "Amsterdam Sans"
 
-#stoplicht6<- c("#ec0000", "#f28b21", "#f8d376", "#e2e693", "#a1cd73", "#53b361")
-
+stoplicht6 <- c(
+  "#e6e6e6",
+  "#ec0000",
+  "#f28b21",
+  "#f8d376",
+  "#e2e693",
+  "#a1cd73",
+  "#53b361"
+)
 os_blauw <- c(
   "#e6e6e6",
-  "#dcddee",
+  "#e7e8f4",
+  "#d0d2e8",
   "#b8bcdd",
-  "#959dcc",
+  "#a1a7d2",
+  "#8992c6",
   "#707ebb",
-  "#4861aa",
+  "#566bb0",
+  "#3858a4",
   "#004699"
+)
+
+discreet <- c(
+  "#ec0000",
+  "#ff9100",
+  "#d48fb9",
+  "#fdb0cb",
+  "#ffe600",
+  "#bed200",
+  "#6cbd74",
+  "#009dec",
+  "#004699",
+  "#e6e6e6"
 )
 
 
@@ -69,7 +92,14 @@ fun_totaal <- function(
 
 # verm_factor is de vermenigingsvuldigingsfactor: 100 of 1
 
-fun_totaal_een <- function(x, xvar, yvar, verm_factor = 100, afr = 0) {
+fun_totaal_een <- function(
+  x,
+  xvar,
+  yvar,
+  grenswaarde = 100,
+  verm_factor = 100,
+  afr = 0
+) {
   x |>
 
     ggplot(aes(
@@ -81,7 +111,11 @@ fun_totaal_een <- function(x, xvar, yvar, verm_factor = 100, afr = 0) {
 
     geom_text(
       aes(
-        label = round({{ xvar }} * verm_factor, afr)
+        label = if_else(
+          {{ xvar }} < grenswaarde,
+          NA,
+          round({{ xvar }} * verm_factor, afr)
+        )
       ),
       hjust = 1.5,
       size = 4.5,

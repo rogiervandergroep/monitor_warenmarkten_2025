@@ -15,14 +15,16 @@ rapportcijfers_ond <- read_rds(
 rap_cijfers <- bind_rows(
   bind_rows(
     rapportcijfers_bez[["totaal"]] |>
-      add_column(markt = 'totaal'),
+      add_column(markt = 'alle markten'),
     rapportcijfers_ond[["totaal"]] |>
-      add_column(markt = 'totaal')
+      add_column(markt = 'alle markten')
   ),
 
   bind_rows(
-    rapportcijfers_bez[["markt"]],
-    rapportcijfers_ond[["markt"]]
+    rapportcijfers_bez[["markt"]] |>
+      my_markt_rename(),
+    rapportcijfers_ond[["markt"]] |>
+      my_markt_rename()
   )
 )
 
@@ -85,20 +87,27 @@ fig_rap_functie <- function(x, groep) {
       family = font
     ) +
     labs(title = NULL, x = NULL, y = NULL) +
-    scale_fill_gradientn(colors = hcl.colors(20, "RdYlgn")) +
-    scale_color_gradientn(name = NULL, colors = label_col) +
+    scale_fill_gradientn(
+      colors = hcl.colors(20, "RdYlgn"),
+      limits = c(1, 10),
+      breaks = c(1, 3, 5.5, 8, 10),
+      labels = c(1, 3, 5.5, 8, 10)
+    ) +
+    scale_color_gradientn(name = NULL, colors = label_col, limits = c(1, 10)) +
     theme_os() +
     theme(text = element_text(size = 15)) +
-    facet_wrap(~ fct_relevel(markt, "totaal", after = Inf)) +
+    facet_wrap(~ fct_relevel(markt, "alle markten", after = Inf)) +
     guides(color = 'none')
 }
 
+# rap_cijfers_test <- rap_cijfers |>
+#   mutate(gem_cat = gtools::quantcut(gemiddelde))
 
 levels_markt |>
   map(\(x) {
     filter(
       rap_cijfers,
-      markt %in% c(x, "totaal")
+      markt %in% c(x, "alle markten")
     ) |>
       fig_rap_functie(groep = "bezoekers")
   }) |>
@@ -109,7 +118,7 @@ levels_markt |>
   map(\(x) {
     filter(
       rap_cijfers,
-      markt %in% c(x, "totaal")
+      markt %in% c(x, "alle markten")
     ) |>
       fig_rap_functie(groep = "ondernemers")
   }) |>

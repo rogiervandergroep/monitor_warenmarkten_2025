@@ -1,15 +1,23 @@
 library(openxlsx)
+# install.packages("quarto")
+library(quarto)
+library(tidyverse)
+# inlezen alle markten
 params_df <- read.xlsx("07 quarto/markten_quarto.xlsx")
 
+# inlezen markten nieuw-west
+params_nw <- params_df |>
+  filter(markt %in% c("Tussen Meer", "Lambertus Zijlplein"))
 
-render_one <- function(name, markt) {
-  outfile <- glue::glue("report_{ markt }.docx")
+## functie
+render_one <- function(markt, stadsdeel, type, map_id) {
+  outfile <- glue::glue("factsheet_{ markt }.docx")
 
   quarto_render(
-    input = "factsheet_warenmarkten.qmd",
+    input = "07 quarto/factsheet_warenmarkten.qmd",
     execute_params = list(
       markt = markt,
-      stadsdeel = sd,
+      stadsdeel = stadsdeel,
       type = type,
       map_id = map_id
     ),
@@ -25,4 +33,11 @@ render_one <- function(name, markt) {
 
 library(purrr)
 
-outputs <- pmap_chr(params_df, render_one)
+render_one(
+  markt = "Lambertus Zijlplein",
+  stadsdeel = 'Nieuw-West',
+  type = "eendaagse markt",
+  map_id = 10
+)
+
+# Tussen Meer Nieuw-West eendaagse markt     14

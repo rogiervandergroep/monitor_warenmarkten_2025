@@ -65,7 +65,7 @@ respons[["locatie"]] |>
     xvar = aandeel,
     yvar = fct_relevel(fct_rev(markt), "totaal"),
     fill = fct_rev(locatie),
-    color_pal = os_blauw[c(1, 4, 7)]
+    color_pal = os_blauw[c(1, 3, 4, 5, 7)]
   ) +
   guides(
     color = 'none',
@@ -81,13 +81,13 @@ respons[["locatie"]] |>
     groep == 'bezoekers'
   ) |>
   mutate(
-    aandeel = aandeel * 100
+    aandeel = aandeel
   ) |>
   fun_totaal(
     xvar = aandeel,
     yvar = fct_rev(jaar),
     fill = fct_rev(fct_relevel(locatie, levels_loc_lang)),
-    color_pal = os_blauw[c(1, 4, 7)]
+    color_pal = discreet[c(1, 3, 4, 5, 7)]
   ) +
   guides(
     color = 'none',

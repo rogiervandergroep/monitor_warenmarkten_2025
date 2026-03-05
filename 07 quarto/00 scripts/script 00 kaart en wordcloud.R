@@ -10,7 +10,7 @@ markten_kaart <- sf::read_sf(
 markten_kaart <- markten_kaart |>
   mutate(
     Locatie = case_when(
-      Locatie == 'Plein `40-`45' ~ "Plein 40-45",
+      Locatie == 'Plein `40-`45' ~ "Plein '40-'45",
       Locatie == "Waterlooplein" ~ "Waterloopleinmarkt",
       Locatie == "Tussen Meer" ~ "Tussenmeer",
       Locatie == "Van Eesterenlaan" ~ "Biomarkt Zeeburg",
@@ -72,7 +72,14 @@ plot(kaart)
 anno_df_som <- read_rds(
   "07 quarto/01 intermediate/tabel_v0_steekwoorden.rds"
 ) |>
-  filter(lemma != 'allochtonen')
+  filter(lemma != 'allochtonen') |>
+  mutate(
+    markt = case_when(
+      markt == 'Plein 40-45' ~ "Plein '40-'45",
+      TRUE ~ markt
+    )
+  )
+
 
 wild <- c(
   "#a00078",

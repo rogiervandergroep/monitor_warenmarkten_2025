@@ -44,3 +44,163 @@ ggsave("06 output figuren/fig_bezettingsgraad2.svg", width = 6, height = 6)
 
 
 write_rds(data_bezettingsgraden, "03 intermediate/tabel_bezettingsgraden.rds")
+
+#####################################################
+## vergrijzing ,  duur op de markt , vast of soll ###
+#####################################################
+
+data_bezettingsgraden <- openxlsx::read.xlsx(
+    "01 data raw/Ondernemers op peildatum 11-12-2025.xlsx",
+)
+
+
+my_markt_rename <- function(x) {
+    x |>
+        mutate(
+            markt = case_when(
+                markt == 'Weesp dinsdag ambulante handel' ~ 'Weesp',
+                markt == "Plein '40 - '45" ~ "Plein 40-45",
+                markt == 'Buikslotermeerplein dagmarkt' ~ 'Buikslotermeerplein',
+                markt == "Ten Katestraat 2024" ~ 'Ten Katestraat',
+                markt == "Waterloopleinmarkt 2022" ~ 'Waterloopleinmarkt',
+                markt == "Noordermarkt Zaterdag" ~ 'Noordermarkt',
+                markt == 'Albert Cuyp' ~ 'Albert Cuypmarkt',
+                markt == "Eesterenlaan Biomarkt" ~ "Biomarkt Zeeburg",
+                markt == 'totaal' ~ 'alle markten',
+                TRUE ~ markt
+            )
+        )
+}
+
+
+data_bez <- data_bezettingsgraden |>
+    my_markt_rename() |>
+    mutate(
+        reg_datum = lubridate::as_date(
+            registratie_datum,
+            origin = "1899-12-30"
+        ),
+        geb_datum = lubridate::as_date(geboortedatum, origin = "1899-12-30"),
+        reg_jaar = year(reg_datum),
+        geb_jaar = year(geb_datum),
+        duur = 2026 - reg_jaar,
+        leeftijd = 2026 - geb_jaar
+    ) |>
+    filter(leeftijd > 2) |>
+    mutate(
+        duur_quant = gtools::quantcut(duur),
+        lft_quant = gtools::quantcut(leeftijd),
+
+        type_ondernemer = case_when(
+            type %in% c("TVPL", "TVPLZ") ~ 'tijdelijke vasteplaatshouder',
+            type %in% c("VPL", "EB") ~ 'vergunninghouder',
+            type == 'SOLL' ~ 'sollicitant'
+        ),
+
+        leeftijdsklasse = case_when(
+            lft_quant == '[20,36]' ~ 'tot 36 jaar',
+            lft_quant == '(36,49]' ~ '36 tot 49 jaar',
+            lft_quant == '(49,60]' ~ '49 jaar tot 60 jaar',
+            lft_quant == '(60,120]' ~ '60 jaar en ouder'
+        ),
+
+        leeftijdsklasse = factor(
+            leeftijdsklasse,
+            levels = c(
+                'tot 36 jaar',
+                '36 tot 49 jaar',
+                '49 jaar tot 60 jaar',
+                '60 jaar en ouder'
+            )
+        ),
+
+        duur_klasse = case_when(
+            duur_quant == "1" ~ 'korter dan 1 jaar',
+            duur_quant == "(1,4]" ~ 'tussen 1 en 4 jaar',
+            duur_quant == "(4,17]" ~ 'tussen 4 en 17 jaar',
+            duur_quant == "(17,60]" ~ '17 jaar of langer'
+        ),
+
+        duur_klasse = factor(
+            duur_klasse,
+            levels = c(
+                'korter dan 1 jaar',
+                'tussen 1 en 4 jaar',
+                'tussen 4 en 17 jaar',
+                '17 jaar of langer'
+            )
+        )
+    )
+
+## gemiddelde leeftijd
+leeft_per_markt <- bind_rows(
+    data_bez |>
+        group_by(markt, type_ondernemer) |>
+        summarise(
+            aantal = n(),
+            gem_duur = mean(duur),
+            gem_lft = mean(leeftijd)
+        ) |>
+        group_by(markt) |>
+        mutate(aandeel = aantal / sum(aantal)),
+
+    data_bez |>
+        group_by(type_ondernemer) |>
+        summarise(
+            aantal = n(),
+            gem_duur = mean(duur),
+            gem_lft = mean(leeftijd)
+        ) |>
+        ungroup() |>
+        mutate(aandeel = aantal / sum(aantal)) |>
+        add_column(markt = 'alle markten')
+)
+
+
+# leeftijd op markt
+leeft_per_cat <- bind_rows(
+    data_bez |>
+        group_by(markt, leeftijdsklasse) |>
+        summarise(aantal = n()) |>
+        group_by(markt) |>
+        mutate(aandeel = aantal / sum(aantal)),
+
+    data_bez |>
+        group_by(leeftijdsklasse) |>
+        summarise(aantal = n()) |>
+        ungroup() |>
+        mutate(aandeel = aantal / sum(aantal)) |>
+        add_column(markt = 'alle markten')
+)
+
+
+## lengte op de markt
+duur_per_cat <- bind_rows(
+    data_bez |>
+        group_by(markt, duur_klasse) |>
+        summarise(aantal = n()) |>
+        group_by(markt) |>
+        mutate(aandeel = aantal / sum(aantal)),
+
+    data_bez |>
+        group_by(duur_klasse) |>
+        summarise(aantal = n()) |>
+        ungroup() |>
+        mutate(aandeel = aantal / sum(aantal)) |>
+        add_column(markt = 'alle markten')
+)
+
+
+write.xlsx(
+    list(leeft_per_markt, leeft_per_cat, duur_per_cat),
+    "05 output tabellen/tabel_lft_marktond.xlsx"
+)
+
+write_rds(
+    list(
+        gem_lft = leeft_per_markt,
+        cat_lft = leeft_per_cat,
+        cat_duur = duur_per_cat
+    ),
+    "03 intermediate/tabel_lft_ondernemers_mb.rds"
+)

@@ -172,6 +172,15 @@ write.xlsx(v10_watmistu_ond, "05 output tabellen/tabel_v10_watmistu_ond.xlsx")
 write_rds(v10_watmistu_ond, "03 intermediate/tabel_v10_watmistu_ond.rds")
 
 
+openvraag_10_mist <- markt_list[["26_ond"]] |>
+  select(markt, v10_other12, v10_other13)
+
+readr::write_rds(
+  openvraag_10_mist,
+  "07 quarto/03 data/tab_v10_ond_mist_anders.rds"
+)
+
+
 source("04 scripts 26/00 scr/script 00 plot functies.R")
 source("04 scripts 26/00 scr/script 00 levels.R")
 

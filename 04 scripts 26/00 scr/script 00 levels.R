@@ -20,14 +20,18 @@ levels_leefklas <- c(
 levels_loc_lang <- c(
   "woont in zelfde stadsdeel markt",
   "woont niet in zelfde stadsdeel markt",
-  "woont buiten Amsterdam of woonplaats onbekend",
+  "overig Nederland",
+  "buitenland",
+  "woonplaats onbekend",
   "totaal"
 )
 
 levels_loc_kort <- c(
   "zelfde stadsdeel",
   "niet in zelfde stadsdeel",
-  "buiten Amsterdam",
+  "overig Nederland",
+  "buitenland",
+  "woonplaats onbekend",
   "totaal"
 )
 
@@ -82,8 +86,8 @@ levels_markt <- c(
   "Reigersbos",
   "Ten Katemarkt",
   "Waterloopleinmarkt",
-  "Plein 40-45",
-  "Tussenmeer",
+  "Plein '40-'45",
+  "Tussen Meer",
   "Weesp",
   "Amstelveld",
   "Biomarkt Zeeburg",
@@ -98,7 +102,7 @@ levels_markt_eendaags <- c(
   "Lindengracht",
   "Noordermarkt",
   "Reigersbos",
-  "Tussenmeer",
+  "Tussen Meer",
   "Weesp",
   "Amstelveld",
   "Biomarkt Zeeburg",

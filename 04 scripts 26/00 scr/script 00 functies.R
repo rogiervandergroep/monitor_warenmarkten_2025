@@ -17,9 +17,12 @@ my_selection <-
           "jaar",
           "markt",
           "type_markt",
+          "type_markt2",
           "groep",
           "leefklas",
-          "locatie"
+          "locatie",
+          "gebied_wijk_code",
+          "gebied_wijk_naam"
         )),
         any_of(groupvars)
       )
