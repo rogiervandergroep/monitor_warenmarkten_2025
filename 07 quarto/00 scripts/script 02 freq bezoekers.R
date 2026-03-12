@@ -31,7 +31,7 @@ levels_markt |>
         xvar = perc / 100,
         yvar = fct_rev(jaar),
         fill = fct_rev(v1),
-        color_pal = os_blauw[c(2, 3, 4, 6, 8, 9)]
+        color_pal = stoplicht6[c(1, 6, 5, 4, 3, 2)]
       ) +
       facet_wrap(
         ~ fct_relevel(
@@ -47,6 +47,11 @@ levels_markt |>
   }) |>
   set_names(levels_markt) |>
   write_rds("07 quarto/02 figuren/fig_v1_freq.rds")
+
+freq_figures <- read_rds("07 quarto/02 figuren/fig_v1_freq.rds")
+
+freq_figures[["Plein '40-'45"]]
+ggsave("07 quarto/02 figuren/fig_frq_plein4045.svg", width = 12, height = 4)
 
 #################################
 #### vraag 3 : redenen bezoek ---
@@ -93,9 +98,9 @@ figuur <- levels_markt |>
         (markt == x | markt == 'alle markten')
       ) |>
       fun_totaal_een(
+        grenswaarde = 0.01,
         xvar = aandeel,
-        yvar = fct_relevel(name_tot, levels(volgorde)),
-        afr = 0
+        yvar = fct_relevel(name_tot, levels(volgorde))
       ) +
       guides(color = 'none', fill = 'none') +
       scale_x_continuous(labels = scales::percent) +
@@ -133,6 +138,7 @@ figuur <- levels_markt |>
         (markt == x | markt == 'alle markten')
       ) |>
       fun_totaal_een(
+        grenswaarde = 0.01,
         xvar = aandeel,
         yvar = fct_relevel(name_tot, levels(volgorde)),
         afr = 0
@@ -322,7 +328,7 @@ levels_markt |>
         color_pal = discreet[c(10, 9, 8, 6, 4, 3, 1)]
       ) +
 
-      guides(color = 'none', fill = guide_legend(ncol = 3, reverse = T))
+      guides(color = 'none', fill = guide_legend(ncol = 2, reverse = T))
   }) |>
   set_names(levels_markt) |>
   write_rds("07 quarto/02 figuren/fig_v6_vervoermiddel.rds")

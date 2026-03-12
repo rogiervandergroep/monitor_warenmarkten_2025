@@ -2,6 +2,9 @@ library(openxlsx)
 # install.packages("quarto")
 library(quarto)
 library(tidyverse)
+library(purrr)
+
+
 # inlezen alle markten
 params_df <- read.xlsx("07 quarto/markten_quarto.xlsx")
 
@@ -30,14 +33,23 @@ render_one <- function(markt, stadsdeel, type, map_id) {
   return(outfile)
 }
 
-
-library(purrr)
+# render_one(
+#   markt = "Lambertus Zijlplein",
+#   stadsdeel = 'Nieuw-West',
+#   type = "eendaagse markt",
+#   map_id = 10
+# )
 
 render_one(
-  markt = "Lambertus Zijlplein",
+  markt = "Tussen Meer",
   stadsdeel = 'Nieuw-West',
   type = "eendaagse markt",
-  map_id = 10
+  map_id = 14
 )
 
-# Tussen Meer Nieuw-West eendaagse markt     14
+# render_one(
+#   markt = "Albert Cuypmarkt",
+#   stadsdeel = 'Zuid',
+#   type = "markt op meerdere ",
+#   map_id = 2
+# )

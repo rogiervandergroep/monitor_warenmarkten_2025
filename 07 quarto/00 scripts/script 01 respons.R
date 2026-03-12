@@ -290,13 +290,17 @@ levels_markt |>
         xvar = aandeel,
         yvar = fct_rev(jaar),
         fillvar = fct_rev(v2),
-        color_pal = os_blauw[c(1, 5, 9)]
+        color_pal = discreet[c(10, 7, 1)]
       ) +
       guides(color = 'none', fill = guide_legend(ncol = 1, reverse = T)) +
       facet_wrap(~ fct_relevel(markt, "alle markten", after = Inf))
   }) |>
   set_names(levels_markt) |>
   write_rds("07 quarto/02 figuren/fig_v0_vast.rds")
+
+
+ [1] "#ec0000" "#ff9100" "#d48fb9" "#fdb0cb" "#ffe600" "#bed200" "#6cbd74"
+ [8] "#009dec" "#004699" "#e6e6e6"
 
 tab_ond_plek |>
   ungroup() |>

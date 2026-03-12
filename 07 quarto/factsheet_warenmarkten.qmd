@@ -30,7 +30,7 @@ source("00 scripts/script 90 losse getallen en woorden in tekst.R")
 ```
   
 ::: {custom-style = "quarto kop 1"}
-Factsheet `{r} params$markt`  - najaar 2025  
+Fact Report `{r} params$markt`  - najaar 2025  
 :::
   
 ::: {custom-style = "2 Datum"}
@@ -39,9 +39,12 @@ Factsheet `{r} params$markt`  - najaar 2025
    
 ::: {custom-style = "3 Introtekst"}
   
-Op `{r} params$markt` geven bezoekers een `{r} round(rap_bez, 1)` als rapportcijfer en ondernemers een `{r} round(rap_ond, 1)` om hun waardering uit te spreken over de markt. Gemiddeld is door bezoekers op de onderzochte markten een 7,7 als rapportcijfer gegeven en door ondernemers een 7,4.  
+Op de `{r} params$markt` geven bezoekers een `{r} round(rap_bez, 1)` als rapportcijfer en ondernemers een `{r} round(rap_ond, 1)`. Gemiddeld geven bezoekers op de onderzochte markten een 7,7 als rapportcijfer en ondernemers een 7,4.  
   
-Van de bezoekers geeft `{r} round(v8_goed*100)`% aan het aanbod op deze markt goed te vinden. Een veel genoemde reden volgens bezoekers om deze markt te bezoeken is, naast boodschappen doen,  `{r} v3_bez_max`. Als bezoekers ontevreden zijn geven zij aan bepaalde producten te missen op 'hun' markt. Op deze markt wordt '`{r} tab_v9_max`' het vaakst genoemd als reden om ontevreden te zijn.   
+Van de bezoekers geeft `{r} round(v8_goed*100)`% aan het aanbod op deze markt goed te vinden. Een veel genoemde reden volgens bezoekers om deze markt te bezoeken is, naast boodschappen doen,  `{r} v3_bez_max`. 
+
+
+Als bezoekers ontevreden zijn geven zij aan bepaalde producten te missen op 'hun' markt. Op deze markt wordt '`{r} tab_v9_max`' het vaakst genoemd als reden om ontevreden te zijn.   
   
 :::
    
@@ -53,7 +56,7 @@ Figuur 1 Ligging `{r} params$markt` in Amsterdam
 ::: {custom-style = "quarto kop 2"}
 Achtergrond  
 :::
-Deze bevindingen over `{r} params$markt` zijn afkomstig van straatenquêtes afgenomen op 19 warenmarkten in Amsterdam. Deze straatenquêtes vonden plaats tussen september en november 2025 en zijn door Onderzoek en Statistiek in opdracht van de gemeente Amsterdam uitgevoerd. In totaal hebben verspreid over de bezochte markten 1.173 bezoekers en 215 ondernemers de vragenlijsten ingevuld. Op `{r} params$markt` deden `{r} resp_bez` bezoekers en `{r} resp_ond` ondernemers mee. Vanwege het kleine aantal geïnterviewde ondernemers moeten de uitspraken van deze groep als illustratief beschouwd worden. Het is voor de derde keer dat markten in Amsterdam gemonitord worden. De vorige metingen vonden plaats in 2017 en 2022. Daar waar mogelijk, zijn de resultaten van die metingen meegenomen in deze factsheet. De factsheet is verrijkt met registerdata van het Marktbureau van EZC.  
+Deze bevindingen over `{r} params$markt` zijn afkomstig van straatenquêtes afgenomen op 19 warenmarkten in Amsterdam. Deze straatenquêtes vonden plaats tussen september en november 2025 en zijn door Onderzoek en Statistiek in opdracht van de gemeente Amsterdam uitgevoerd. In totaal hebben 1.173 bezoekers en 215 ondernemers de vragenlijsten ingevuld. Op `{r} params$markt` deden `{r} resp_bez` bezoekers en `{r} resp_ond` ondernemers mee. Vanwege het kleine aantal geïnterviewde ondernemers moeten de uitspraken van deze groep als illustratief beschouwd worden. Het is voor de derde keer dat markten in Amsterdam gemonitord worden. De vorige metingen vonden plaats in 2017 en 2022. Daar waar mogelijk, zijn de resultaten van die metingen hier meegenomen. De rapportage is verrijkt met registerdata van de afdeling Markten (Stadswerken).
   
     
 `{r} params$markt` ligt in stadsdeel `{r} params$stadsdeel`. Een groot deel van de inwoners uit dit stadsdeel, `{r} round(det_geen*100)`%, gaat niet naar de markt. Ter vergelijking: een derde (33%) van alle inwoners van Amsterdam gaat niet naar de markt (Monitor Detailhandel 2026).
@@ -61,7 +64,7 @@ Deze bevindingen over `{r} params$markt` zijn afkomstig van straatenquêtes afge
 ::: {custom-style = "quarto kop 2"}
 Inleiding 
 :::
-In figuur 2 en 3 is de leeftijdsverdeling van de respondenten op `{r} params$markt` weergegeven. De leeftijdsverdeling kan gebruikt worden om inzicht te krijgen in welke doelgroep deze markt aantrekt. Het aandeel geïnterviewde bezoekers `{r} params$markt` tot 35 jaar is `{r} round(bez_lft*100)`% . Gemiddeld is dat op alle markten die meegenomen zijn in dit onderzoek 24%.   
+In figuur 2 is de leeftijdsverdeling van de bezoekers op `{r} params$markt` weergegeven. De leeftijdsverdeling kan gebruikt worden om inzicht te krijgen in welke doelgroep deze markt aantrekt. Het aandeel geïnterviewde bezoekers `{r} params$markt` tot 35 jaar is `{r} round(bez_lft*100)`% . Gemiddeld is dat op alle markten die meegenomen zijn in dit onderzoek 24%.   
   
 ::: {custom-style = "quarto figuurtitel"}
 Figuur 2 Leeftijdsverdeling geïnterviewde bezoekers `{r} params$markt` en van alle markten, 2017, 2022 en 2025 (procenten)
@@ -73,21 +76,11 @@ figuur[[params$markt]]
 ```
     
   
-Op de markten van dit onderzoek in Amsterdam is bij de meting in 2025 ruim een derde (37%) van de geïnterviewde ondernemers 56 jaar of ouder. Op `{r} params$markt` is dat `{r} round(ond_lft*100)`% van de `{r} resp_ond` geïnterviewde ondernemers.  
-  
-Tegenover de veldwerkobservaties staan de registergegevens van ondernemers die bij het Marktbureau staan ingeschreven met betrekking tot leeftijd, type contract en duur op de markt. Van alle ingeschrevenen bij het marktbureau is 24% 60 jaar en ouder. Op de `{r} params$markt` is dat `{r} round(mb_60jr*100)`%.
-  
-::: {custom-style = "quarto figuurtitel"}
-Figuur 3a Leeftijdsverdeling *geïnterviewde* ondernemers `{r} params$markt` en van alle markten, 2017, 2022 en 2025 (procenten)
-:::
-```{r}
-figuur <- read_rds("02 figuren/fig_leeftijd_ond.rds")
-figuur[[params$markt]]
-```
-  
+
+Tegenover de veldwerkobservaties staan de registergegevens van ondernemers die bij de afdeling Markten staan ingeschreven. Van alle ingeschrevenen bij de afdeling Markten is 24% 60 jaar en ouder. Op de `{r} params$markt` is dat `{r} round(mb_60jr*100)`%.
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 3b Leeftijdsverdeling bij het Marktbureau *ingeschreven* ondernemers `{r} params$markt`  en van alle markten, 2025 (procenten)
+Figuur 3 Leeftijdsverdeling bij de afdeling Markten *ingeschreven* ondernemers `{r} params$markt`  en van alle markten, 2025 (procenten)
 :::
 ```{r, fig.width = 6, fig.height = 3, out.width = "60%"}
 
@@ -95,37 +88,14 @@ figuur <- read_rds("02 figuren/fig_mb_lftklas.rds")
 figuur[[params$markt]]
 ```
 ::: {custom-style = "7 Bron"}
-Bron: Marktbureau, 2025
+Bron: afdeling Markten, 2025
 :::
   
-  
-Over de geïnterviewde ondernemers kan vermeld worden dat op `{r} params$markt` `{r} round(lengte_ond*100)`% langer 10 jaar op de markt staat (figuur 4) en dat `{r} round(vast*100)`% hier vergunninghouder is (figuur 5). 
-  
-  
-Ook hier kunnen de veldwerkobservaties tegenover de registerdata van het Marktbureau geplaatst worden (zie figuur 6). Van alle geregistreerde ondernemers op de 19 markten van dit onderzoek is een kwart langer dan 17 jaar ingeschreven. Op de `{r} params$markt` is dat aandeel `{r} round(mb_17jr*100)`%. Daarnaast is gemiddeld 24% vergunninghouder en 67% sollicitant. op `{r} params$markt` is `{r} round(mb_verg*100)`% vergunninghouder.  
-  
-::: {custom-style = "quarto figuurtitel"}
-Figuur 4 Aantal jaren dat *geïnterviewde* ondernemers op `{r} params$markt` en alle markten staan, 2017, 2022 en 2025 (procenten)  
-:::
-```{r}
-figuur <- read_rds("02 figuren/fig_lengte_ond.rds")
-figuur[[params$markt]]
-```
-  
-  
+Van de geregistreerde ondernemers op de 19 markten van dit onderzoek is een kwart langer dan 17 jaar ingeschreven. Op de `{r} params$markt` is dat aandeel `{r} round(mb_17jr*100)`%. Daarnaast is gemiddeld 24% vergunninghouder en 67% sollicitant. Op `{r} params$markt` is `{r} round(mb_verg*100)`% vergunninghouder.  
 
-::: {custom-style = "quarto figuurtitel"}
-Figuur 5 Aandeel *geïnterviewde* ondernemers `{r} params$markt` en alle markten dat vergunninghouder is of sollicitant, 2017, 2022 en 2025 (procenten)  
-:::
-```{r}
-figuur <- read_rds("02 figuren/fig_v0_vast.rds")
-figuur[[params$markt]]
-```
-  
-  
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 6 Aantal jaren bij Marktbureau *ingeschreven* ondernemers van `{r} params$markt` en van alle markten (links) en aandeel geregistreerde vergunninghouders en sollicitanten (rechts), 2025 (procenten)  
+Figuur 4 Aantal jaren bij de afdeling Markten *ingeschreven* ondernemers van `{r} params$markt` en van alle markten (links) en aandeel geregistreerde vergunninghouders en sollicitanten (rechts), 2025 (procenten)  
 :::
 ```{r}
 figuurd <- read_rds("02 figuren/fig_mb_duurklas.rds")
@@ -135,15 +105,15 @@ figuurd[[params$markt]]+figuurt[[params$markt]]
 ```
   
 ::: {custom-style = "7 Bron"}
-Bron: Marktbureau, 2025
+Bron: afdeling Markten, 2025
 :::
   
   
-Bezoekers konden bij aanvang van het interview met steekwoorden de `{r} params$markt` omschrijven. De meest genoemde woorden zijn terug te vinden in de wordcloud hieronder. Ze vormen een grove indicatie over hoe er over deze markt zoal gedacht wordt.  
+Gesproken bezoekers konden bij aanvang van het interview met steekwoorden de `{r} params$markt` omschrijven. De meest genoemde woorden zijn terug te vinden in de wordcloud hieronder. Ze vormen een grove indicatie over hoe er over deze markt zoal gedacht wordt.  
   
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 7 Veel genoemde steekwoorden die bezoekers `{r} params$markt` noemden, 2025
+Figuur 5 Veel genoemde steekwoorden die bezoekers `{r} params$markt` noemden, 2025
 :::
 ![](02 figuren/wordcloud_`{r} params$markt`.png){width="60%"}
    
@@ -151,11 +121,11 @@ Figuur 7 Veel genoemde steekwoorden die bezoekers `{r} params$markt` noemden, 20
 ::: {custom-style = "quarto kop 2"}
 Mate van marktbezoek
 :::
-Van de gesproken bezoekers van de `{r} params$markt` gaat `{r} round(freq_bez)`% één keer per week of vaker naar de markt. Bij alle markten in dit onderzoek, gaf de helft van de geïnterviewde bezoekers aan minimaal een keer per naar de markt te gaan.   
+Van de gesproken bezoekers van de `{r} params$markt` gaat `{r} round(freq_bez)`% één keer per week of vaker naar de markt. Bij alle markten in dit onderzoek, gaf de helft van de geïnterviewde bezoekers aan minimaal een keer per week naar de markt te gaan.   
   
    
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 8 Bezoekfrequentie `{r} params$markt` en andere markten, 2017, 2022 en 2025 (procenten)  
+Figuur 6 Bezoekfrequentie `{r} params$markt` en andere markten, 2017, 2022 en 2025 (procenten)  
 :::
 ```{r}
 fig <- read_rds("02 figuren/fig_v1_freq.rds")
@@ -164,10 +134,10 @@ fig[[params$markt]]
   
     
   
-De meeste bezoekers gaan `{r} verv` naar de `{r} params$markt` (figuur 9). Daarnaast geeft bijna de helft van de bezoekers op de markten aan in hetzelfde stadsdeel te wonen als waar de markt ligt. In het geval van `{r} params$markt` is dat `{r} round(herk*100)`% (figuur 10a). In figuur 10b zijn de meest genoemde woonwijken van de bezoekers weergegeven.
+De meeste bezoekers gaan `{r} verv` naar de `{r} params$markt` (figuur 7). Daarnaast geeft bijna de helft van de bezoekers op de markten aan in hetzelfde stadsdeel te wonen als waar de markt ligt. In het geval van `{r} params$markt` is dat `{r} round(herk*100)`% (figuur 8). In figuur 9 zijn de meest genoemde woonwijken van de bezoekers weergegeven.
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 9 Vervoermiddel waarmee gesproken bezoekers `{r} params$markt` en alle markten naar de markt zijn gekomen, 2025(procenten)
+Figuur 7 Vervoermiddel waarmee gesproken bezoekers `{r} params$markt` en alle markten naar de markt zijn gekomen, 2025(procenten)
 :::
 ```{r,  fig.width = 6, fig.height = 3, out.width = "60%"}
 figuur <- read_rds("02 figuren/fig_v6_vervoermiddel.rds")
@@ -177,7 +147,7 @@ figuur[[params$markt]]
   
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 10a Woongebied van gesproken bezoekers `{r} params$markt` en alle markten, 2017, 2022, 2025 (procenten)
+Figuur 8 Woongebied van gesproken bezoekers `{r} params$markt` en alle markten, 2017, 2022, 2025 (procenten)
 :::
 ```{r}
 
@@ -190,7 +160,7 @@ figuur[[params$markt]]
 
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 10b Meest genoemde wijken waar de bezoekers op `{r} params$markt` vandaan komen, 2025 (aantal)
+Figuur 9 Meest genoemde wijken waar de bezoekers op `{r} params$markt` vandaan komen, 2025 (aantal)
 :::
 ```{r, fig.width = 6, fig.height = 4, out.width = "50%"}
 
@@ -201,11 +171,11 @@ figuur[[params$markt]]
   
   
 
-Uit de Monitor Detailhandel weten we dat bewoners uit Amsterdam die onlangs naar de `{r} params$markt` zijn gegaan bij hun laatste bezoek in 2025 `{r} round(det_prijs)` euro hebben uitgegeven (figuur 11). 
+Uit de Monitor Detailhandel weten we dat bewoners uit Amsterdam die onlangs naar de `{r} params$markt` zijn gegaan bij hun laatste bezoek in 2025 `{r} round(det_prijs)` euro hebben uitgegeven (figuur 10). 
   
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 11 Geschatte uitgaven van bewoners die naar de `{r} params$markt` zijn geweest en gemiddelde geschatte uitgaven op warenmarkten in Amsterdam, 2019, 2021, 2023 en 2025 (euro's)
+Figuur 10 Geschatte uitgaven van bewoners die naar de `{r} params$markt` zijn geweest en gemiddelde geschatte uitgaven op warenmarkten in Amsterdam, 2019, 2021, 2023 en 2025 (euro's)
 :::
 ```{r}
 
@@ -225,7 +195,7 @@ Reden bezoek
 De meest genoemde reden volgens bezoekers om naar de `{r} params$markt` te gaan is, naast boodschappen doen, `{r} v3_bez_max`. 
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 12 Redenen om volgens bezoekers de markt te bezoeken, `{r} params$markt` versus gemiddelde alle markten, 2025 (procenten)   
+Figuur 11 Redenen om volgens bezoekers de markt te bezoeken, `{r} params$markt` versus gemiddelde alle markten, 2025 (procenten)   
 :::
 ```{r, fig.height = 5}
 
@@ -259,7 +229,7 @@ Als bezoekers aangaven dat 'gezelligheid' een belangrijke reden is om naar de ma
 In het algemeen kopen bezoekers groente en fruit op de warenmarkten in Amsterdam. Op de `{r} params$markt` kopen bezoekers voornamelijk `{r} v4_max`.     
    
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 13 Producten die bezoekers op de `{r} params$markt` en andere markten kopen, 2025 (procenten)  
+Figuur 12 Producten die bezoekers op de markten kopen, `{r} params$markt` versus gemiddelde alle markten, 2025 (procenten)  
 :::
 ```{r , fig.width = 12, fig.height = 5}
 
@@ -282,7 +252,7 @@ Bij 'anders namelijk' konden bezoekers aangeven welke producten zij nog meer koc
 In onderstaande figuur is aangeven of bezoekers vooral voor de markt of de winkels in het winkelgebied komen. De uitkomsten zijn vergeleken met de bevindingen van alle bezoekers.  
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 14 Aandeel bezoekers `{r} params$markt` dat aangeeft specifiek naar markt te komen dan wel naar winkels, 2017, 2022 en 2025 (procenten)  
+Figuur 13 Aandeel bezoekers dat aangeeft specifiek naar de markt te komen dan wel naar winkels, `{r} params$markt` versus gemiddelde alle markten, 2017, 2022 en 2025 (procenten)  
 :::
 ```{r}
 
@@ -295,7 +265,7 @@ fig[[params$markt]]
 Aan bezoekers is gevraagd of zij nog andere markten bezoeken. Van bezoekers op `{r} params$markt` geeft `{r} round(geenmarkt*100)`% aan geen andere markt te bezoeken. De `{r} meestanderemarkt` wordt het vaakst genoemd als markt die bezoekers van deze markt ook bezoeken.  
     
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 15 Meest genoemde andere markten die bezoekers `{r} params$markt` ook bezoeken, 2025 (procenten)  
+Figuur 14 Meest genoemde andere markten die bezoekers `{r} params$markt` ook bezoeken, 2025 (procenten)  
 :::
 ```{r , fig.width = 6, fig.height = 3, out.width = "50%"}
 
@@ -314,7 +284,7 @@ Aan bezoekers is gevraagd hoe zij het aanbod waarderen op de `{r} params$markt`.
 Tot slot was in dit deel van de enquête gevraagd wat er zou moeten gebeuren om vaker naar de markt te gaan. In veel gevallen geven bezoekers aan dat er meer variatie moet komen met betrekking tot zowel food als non-food.  
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 16 Aandeel bezoekers `{r} params$markt` dat het aanbod op deze markt goed dan wel niet goed vindt, 2017, 2022 en 2025 (procenten)  
+Figuur 15 Aandeel bezoekers `{r} params$markt` dat het aanbod op deze markt goed dan wel niet goed vindt, 2017, 2022 en 2025 (procenten)  
 :::
 ```{r}
 
@@ -325,7 +295,7 @@ fig[[params$markt]]
     
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 17 Genoemde redenen door bezoekers `{r} params$markt` om ontevreden te zijn, 2025 (procenten)  
+Figuur 16 Genoemde redenen van bezoekers om ontevreden te zijn over de markt, `{r} params$markt` versus gemiddelde alle markten, 2025 (procenten)  
 :::
 ```{r , fig.height = 3}
 
@@ -347,7 +317,7 @@ Andere genoemde reden om volgens bezoekers op deze markt ontevreden te zijn, zij
   
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 18 Zaken of dingen die bezoekers op `{r} params$markt` missen, 2025 (procenten)  
+Figuur 17 Producten die bezoekers op de markt missen, `{r} params$markt` versus gemiddelde van alle markten, 2025 (procenten)  
 :::
 ```{r, fig.height = 5}
 
@@ -359,7 +329,7 @@ fig[[params$markt]]
 ```
   
   
-Andere genoemde zaken die bezoekers op deze markt missen, zijn de volgende
+Andere producten die bezoekers op deze markt missen, zijn de volgende
     
 ::: {custom-style = "Tekstvak grijs"}
   
@@ -371,7 +341,7 @@ Andere genoemde zaken die bezoekers op deze markt missen, zijn de volgende
   
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 19 Wat zou volgens bezoekers op `{r} params$markt` helpen om vaker naar de markt te komen, 2025 (procenten)  
+Figuur 18 Wat zou volgens bezoekers helpen om vaker naar de markt te komen, `{r} params$markt` versus gemiddelde alle markten, 2025 (procenten)  
 :::
 ```{r , fig.width = 12, fig.height = 4}
 
@@ -404,7 +374,7 @@ Oordeel over de markt volgens ondernemers
 Wat zijn volgens de ondernemers de belangrijkste redenen waarom bezoekers hun markt bezoeken? Veel ondernemers gaan ervan uit dat bezoekers naar de markt komen voor de gezelligheid en voor de boodschappen. De meest genoemde reden volgens de `{r} resp_ond` geïnterviewde ondernemers op `{r} params$markt` om naar de markt te komen is '`{r} v3_ond_max`'.  
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 20 Redenen van bezoek volgens ondernemers op `{r} params$markt` en andere markten, 2025 (procenten)
+Figuur 19 Redenen van bezoek volgens ondernemers op `{r} params$markt` en andere markten, 2025 (procenten)
 :::
 ```{r , fig.width = 12, fig.height = 5}
 
@@ -419,7 +389,7 @@ fig[[params$markt]]
 Aan de ondernemers is gevraagd in hoeverre zij menen dat het bezoekersaantal de afgelopen jaren is toegenomen dan wel afgenomen. Bijna één op de drie ondernemers op de Amsterdamse markten meent dat het aantal bezoekers is toegenomen. Op de `{r} params$markt` is dat `{r} round(tab_v3_toename*100)`% van de ondernemers. `{r} round(tab_v3_afname*100)`% ziet een afname van het aantal bezoekers.
    
 ::: {custom-style = "quarto figuurtitel"}
-figuur 21 Aandeel ondernemers dat meent dat bezoekersaantallen zijn toe of afgenomen, 2025 (procenten)  
+Figuur 20 Aandeel ondernemers dat meent dat bezoekersaantallen op hun markt zijn toe- of afgenomen, `{r} params$markt` versus gemiddelde van alle markten, 2017, 2022 en 2025 (procenten)
 :::
 ```{r}
 
@@ -446,10 +416,10 @@ fig[[params$markt]]
 :::
   
   
-Aan ondernemers is de vraag gesteld in hoeverre zij hun markt beter of slechter vinden ten opzichte van andere markten in amsterdam. In het algemeen vindt bijna de helft van de ondernemers dat hun markt er beter voor staat dan andere markten in Amsterdam. Op de `{r} params$markt` is dat `{r} round(tab_v7_max*100)`%. Daarnaast is gekeken wat ondernemers op deze markt zoal missen.  
+Aan ondernemers is de vraag gesteld in hoeverre zij hun markt beter of slechter vinden ten opzichte van andere markten in Amsterdam. In het algemeen vindt bijna de helft van de ondernemers dat hun markt er beter voor staat dan andere markten in Amsterdam. Op de `{r} params$markt` is dat `{r} round(tab_v7_max*100)`%. Daarnaast is gekeken wat ondernemers op deze markt zoal missen.  
    
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 22 Aandeel ondernemers dat meent dat hun markt beter dan wel slechter scoort ten opzichte van andere markten, 2025(procenten)  
+Figuur 21 Aandeel ondernemers dat meent dat hun markt beter dan wel slechter scoort ten opzichte van andere markten, `{r} params$markt` versus gemiddelde van alle markten, 2017, 2022 en 2025 (procenten)  
 :::
 ```{r , fig.width = 12, fig.height = 4}
 
@@ -460,7 +430,7 @@ fig[[params$markt]]
   
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 23 Producten die ondernemers op de markt missen, 2025 (procenten)  
+Figuur 22 Producten die ondernemers op de markt missen, `{r} params$markt` versus gemiddelde van alle markten, 2025 (procenten)  
 :::
 ```{r , fig.height = 5}
 
@@ -486,10 +456,10 @@ fig[[params$markt]]
 :::
   
   
-Aan ondernemers op deze markt is gevraagd in hoeverre zij tevreden zijn met de samenwerking andere groepen belanghebbenden, waaronder andere marktondernemers, winkeliers en horecaondernemers en gemeente en stadsdeel. De bevindingen staan in de figuren 24a tot en met 24d. 
+Aan ondernemers op deze markt is gevraagd in hoeverre zij tevreden zijn met de samenwerking met andere groepen belanghebbenden, waaronder andere marktondernemers, winkeliers en horecaondernemers en gemeente en stadsdeel. De bevindingen staan in de figuren 24a tot en met 24d. 
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 24a Beoordeling samenwerking ondernemers `{r} params$markt` met andere marktondernemers, 2017, 2022 en 2025 (procenten)  
+Figuur 23a Beoordeling samenwerking ondernemers `{r} params$markt` met andere marktondernemers, 2017, 2022 en 2025 (procenten)  
 :::
 ```{r , fig.width = 12, fig.height = 4}
 
@@ -501,7 +471,7 @@ fig[[params$markt]]
   
     
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 24b Beoordeling samenwerking ondernemers `{r} params$markt` met winkeliers in de omgeving, 2017, 2022 en 2025 (procenten)  
+Figuur 23b Beoordeling samenwerking ondernemers `{r} params$markt` met winkeliers in de omgeving, 2017, 2022 en 2025 (procenten)  
 :::
 ```{r , fig.width = 12, fig.height = 4}
 
@@ -515,7 +485,7 @@ fig[[params$markt]]
   
     
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 24c Beoordeling samenwerking ondernemers `{r} params$markt` met horecaondernemers, 2017, 2022 en 2025 (procenten)  
+Figuur 23c Beoordeling samenwerking ondernemers `{r} params$markt` met horecaondernemers, 2017, 2022 en 2025 (procenten)  
 :::
 ```{r , fig.width = 12, fig.height = 4}
 
@@ -527,7 +497,7 @@ fig[[params$markt]]
 
     
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 24d Beoordeling samenwerking ondernemers `{r} params$markt` met stadsdeel en gemeente, 2017, 2022 en 2025 (procenten)  
+Figuur 23d Beoordeling samenwerking ondernemers `{r} params$markt` met stadsdeel en gemeente, 2017, 2022 en 2025 (procenten)  
 :::
 ```{r , fig.width = 12, fig.height = 4}
 
@@ -552,7 +522,7 @@ Wat vinden ondernemers van het hypothetische idee dat de markt op afstand komt t
    
    
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 25a Wat vinden ondernemers van het idee om op afstand te functioneren, 2025 (procenten)  
+Figuur 24 Wat vinden ondernemers van het idee om op afstand te functioneren, 2025 (procenten)  
 :::
 ```{r, fig.width = 6, fig.height = 3, out.width = "60%"}
 
@@ -567,7 +537,7 @@ Daarnaast is aan ondernemers gevraagd of zij er van uit gaan dat zij over tien j
   
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 25b Denkt de ondernemer over tien jaar nog op de markt te staan, 2025 (procenten)  
+Figuur 25 Denkt de ondernemer over tien jaar nog op de markt te staan, 2025 (procenten)  
 :::
 
 ```{r, fig.width = 6, fig.height = 3, out.width = "60%"}
@@ -620,10 +590,10 @@ Aan de ondernemers is gevraagd wat het sterkste punt is op de markt en het zwaks
 ::: {custom-style = "quarto kop 2"}
 Rapportcijfers  
 :::
-Al sinds 2016 is bezoekers en ondernemers gevraagd om de markt te beoordelen met hulp van rapportcijfers. Zo ook in het najaar van 2025, toen bezoekers en ondernemers de markt konden beoordelen op meerdere items. Hieronder is aangegeven in hoeverre `{r} params$markt` scoort ten opzichte van andere markten. In 2025 geven bezoekers van `{r} params$markt` een `{r} round(rap_bez, 1)` als rapportcijfer om hun algehele waardering uit te spreken over deze markt. Ondernemers geven een `{r} round(rap_ond, 1)`. Gemiddeld is door bezoekers op alle markten een 7,7 als rapportcijfer gegeven en door ondernemers een 7,4.  
+Al sinds 2016 is bezoekers en ondernemers gevraagd om de markt te beoordelen met hulp van rapportcijfers. Zo ook in het najaar van 2025, toen bezoekers en ondernemers de markt konden beoordelen op meerdere items. Hieronder is aangegeven in hoeverre `{r} params$markt` scoort ten opzichte van andere markten. In 2025 geven bezoekers van `{r} params$markt` een `{r} round(rap_bez, 1)` als rapportcijfer om hun algehele waardering uit te spreken over deze markt. Ondernemers geven een `{r} round(rap_ond, 1)`. Gemiddeld is door bezoekers op alle markten een 7,6 als rapportcijfer gegeven en door ondernemers een 7,4.  
     
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 26 Oordeel bezoekers `{r} params$markt` en gemiddeld, 2025 (rapportcijfers)
+Figuur 26 Oordeel bezoekers `{r} params$markt` en gemiddelde van alle markten, 2017, 2022 en 2025 (rapportcijfers)
 :::
 ```{r , fig.width = 12, fig.height = 5,  fig.format = "png"}
 
@@ -635,7 +605,7 @@ fig[[params$markt]]
   
        
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 27 Oordeel ondernemers `{r} params$markt` en gemiddeld, 2026 (rapportcijfers)
+Figuur 27 Oordeel ondernemers `{r} params$markt` en gemiddelde van alle markten, 2017, 2022 en 2025 (rapportcijfers)
 :::
 ```{r , fig.width = 12, fig.height = 5, fig.format = "png"}
 
@@ -648,10 +618,10 @@ fig[[params$markt]]
 Bezettingsgraden op de markt
 :::
   
-Vanuit het Marktbureau is een databestand aangeleverd met informatie over de bezettingsgraden per markt voor de maanden januari tot en met september 2025. De bezettingsgraad wordt berekend door het aantal ondernemers dat zich aanmeldt op een marktdag voor een markt te delen door het aantal beschikbare plekken. Deze data wordt per martkdag en per markt verzameld door het Martbureau. Vervolgens kan een week- maand of jaargemiddelde berekend worden van deze bezettingsgraden. Een lage bezettingsgraad betekent dus dat er veel lege (onbezette) plekken op de markt zijn. Indirect zegt deze maat dus ook iets over de populariteit van de markt voor ondernemers en bezoekers. De bezettingsgraden van `{r} params$markt` zijn in de figuur hieronder weergegeven.  
+Vanuit het afdeling Markten is een databestand aangeleverd met informatie over de bezettingsgraden per markt voor de maanden januari tot en met september 2025. De bezettingsgraad wordt berekend door het aantal ondernemers dat zich aanmeldt op een marktdag voor een markt te delen door het aantal beschikbare plekken. Deze data wordt per martkdag en per markt verzameld door het Martbureau. Vervolgens kan een week- maand of jaargemiddelde berekend worden van deze bezettingsgraden. Een lage bezettingsgraad betekent dus dat er veel lege (onbezette) plekken op de markt zijn. Indirect zegt deze maat dus ook iets over de populariteit van de markt voor ondernemers en bezoekers. De bezettingsgraden van `{r} params$markt` zijn in de figuur hieronder weergegeven.  
   
 ::: {custom-style = "quarto figuurtitel"}
-Figuur 28 Bezettingsgraden `{r} params$markt` op de markt tussen januari 2026 en september 2026 (rapportcijfers)
+Figuur 28 Bezettingsgraden markt `{r} params$markt` en gemiddelde van alle markten tussen januari 2026 en september 2026 (procenten)
 :::
 ```{r , fig.width = 12, fig.height = 6, out.width = "70%"}
 
@@ -659,12 +629,12 @@ fig <- read_rds("02 figuren/fig_bezettingsgraden.rds")
 fig[[params$markt]]
 ```
 ::: {custom-style = "7 Bron"}
-Marktbureau EZ, 2025
+afdeling Markten EZ, 2025
 :::
 
 Ondernemers en bezoekers konden ook nog een laatste opmerking meegeven aan de interviewer ter afsluiting van de vragenlijst. De volgende antwoorden werden gegeven met betrekking tot de markt op `{r} params$markt`. 
   
-**opmerkingen van bezoekers**  
+**Opmerkingen van bezoekers**  
   
 ::: {custom-style = "Tekstvak grijs"}
   
@@ -672,7 +642,7 @@ Ondernemers en bezoekers konden ook nog een laatste opmerking meegeven aan de in
   
 :::
   
-**opmerkingen van ondernemers**  
+**Opmerkingen van ondernemers**  
   
 ::: {custom-style = "Tekstvak grijs"}
   

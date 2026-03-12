@@ -92,8 +92,8 @@ levels_markt |>
       fun_totaal(
         xvar = aandeel,
         yvar = fct_relevel(markt, 'alle markten'),
-        fill = fct_rev(type_ondernemer),
-        color_pal = discreet[c(1, 4, 7)]
+        fill = type_ondernemer,
+        color_pal = discreet[c(7, 4, 1)]
       ) +
       guides(color = 'none', fill = guide_legend(nrow = 2, reverse = T))
   }) |>

@@ -75,8 +75,16 @@ anno_df_som <- read_rds(
   filter(lemma != 'allochtonen') |>
   mutate(
     markt = case_when(
+      markt == 'Tussenmeer' ~ 'Tussen Meer',
       markt == 'Plein 40-45' ~ "Plein '40-'45",
       TRUE ~ markt
+    )
+  ) |>
+  mutate(
+    lemma = case_when(
+      lemma == "marken" ~ "markten",
+      lemma == "osdorpmarken" ~ "osdorpmarkten",
+      TRUE ~ lemma
     )
   )
 

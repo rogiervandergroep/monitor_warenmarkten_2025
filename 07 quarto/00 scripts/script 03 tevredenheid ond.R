@@ -217,7 +217,7 @@ levels_markt |>
         xvar = aandeel,
         yvar = fct_relevel(markt, 'alle markten'),
         fill = fct_rev(v15),
-        color_pal = stoplicht6[c(2, 4, 7)]
+        color_pal = stoplicht6[c(7, 4, 2)]
       ) +
       guides(color = 'none', fill = guide_legend(ncol = 1, reverse = T))
   }) |>

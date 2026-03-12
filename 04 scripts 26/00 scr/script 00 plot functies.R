@@ -96,7 +96,7 @@ fun_totaal_een <- function(
   x,
   xvar,
   yvar,
-  grenswaarde = 100,
+  grenswaarde = 0, # bij 0 laat alle waarden zien
   verm_factor = 100,
   afr = 0
 ) {
