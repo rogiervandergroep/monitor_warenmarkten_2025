@@ -17,17 +17,17 @@ tabel_v1 |>
   ) |>
   mutate(v1 = factor(v1, levels = levels_freq_bez)) |>
   fun_totaal(
-    xvar = perc,
+    xvar = perc / 100,
     yvar = fct_rev(jaar),
     fill = fct_rev(v1),
-    color_pal = os_blauw
+    color_pal = stoplicht6[c(1, 6, 5, 4, 3, 2)]
   ) +
   facet_wrap(~type_markt2) +
   guides(
     color = 'none',
     fill = guide_legend(nrow = 2, reverse = T)
   )
-ggsave("06 output figuren/fig_v1_totaal.svg", width = 12, height = 4)
+ggsave("06 output figuren/fig_v1_totaal.svg", width = 10, height = 4)
 
 
 tabel_v1 |>
@@ -42,17 +42,17 @@ tabel_v1 |>
     leefklas = factor(leefklas, levels = levels_leefklas)
   ) |>
   fun_totaal(
-    xvar = perc,
+    xvar = perc / 100,
     yvar = fct_rev(jaar),
     fill = fct_rev(v1),
-    color_pal = os_blauw
+    color_pal = stoplicht6[c(1, 6, 5, 4, 3, 2)]
   ) +
   facet_wrap(~leefklas, nrow = 1) +
   guides(
     color = 'none',
     fill = guide_legend(nrow = 2, reverse = T)
   )
-ggsave("06 output figuren/fig_v1_leefkl.svg", width = 12, height = 4)
+ggsave("06 output figuren/fig_v1_leefkl.svg", width = 10, height = 4)
 
 # figuur naar locatie -
 tabel_v1 |>

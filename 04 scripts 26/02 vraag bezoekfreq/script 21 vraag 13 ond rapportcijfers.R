@@ -303,27 +303,73 @@ rap_c_ond <- df_rapportcijfers[["markt"]] |>
   my_filter() |>
   add_column(groep = 'ondernemers')
 
+items_bez <- c(
+  "kant en klaar voedsel",
+  "indeling en opstelling van de markt",
+  "netheid/verzorgdheid",
+  "openingstijden",
+  "parkeermogelijkheden en tarieven",
+  "sfeer/gezelligheid op de markt",
+  "variatie in het niet-eetbare productaanbod",
+  "variatie in het eetbare productaanbod",
+  "algemeen rapportcijfer",
+  "reclame en acties"
+)
+
+
+fig_rap_functie <- function(x, yvar) {
+  hcl <- farver::decode_colour(hcl.colors(20, "RdYlgn"), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
+  x |>
+    mutate(
+      jaar = str_remove_all(jaar, "jaar "),
+      labels = str_remove_all(labels, "[\\\\()]"),
+      labels = str_replace_all(
+        labels,
+        "aanbod voedsel voor directe consumptie kant-en-klaar voedsel",
+        "kant en klaar voedsel"
+      )
+    ) |>
+
+    ggplot(aes(
+      x = jaar,
+      y = {{ yvar }},
+      fill = round(gemiddelde, 1)
+    )) +
+    geom_tile(color = "white", lwd = 0.9, linetype = 1) +
+    geom_text(
+      aes(
+        color = gemiddelde,
+        label = round(gemiddelde, 1)
+      ),
+      size = 5,
+      family = font
+    ) +
+    labs(title = NULL, x = NULL, y = NULL) +
+    scale_fill_gradientn(
+      colors = hcl.colors(20, "RdYlgn"),
+      limits = c(1, 10),
+      breaks = c(1, 3, 5.5, 8, 10),
+      labels = c(1, 3, 5.5, 8, 10)
+    ) +
+    scale_color_gradientn(name = NULL, colors = label_col, limits = c(1, 10)) +
+    theme_os() +
+    theme(text = element_text(size = 15)) +
+    facet_wrap(~groep) +
+    guides(color = 'none')
+}
+
 
 bind_rows(rap_c_bez, rap_c_ond) |>
   filter(labels == 'algemeen rapportcijfer') |>
   mutate(jaar = str_remove_all(jaar, "jaar ")) |>
-
-  ggplot(aes(
-    x = jaar,
-    y = markt,
-    fill = round(gemiddelde, 1)
-  )) +
-  geom_tile(color = "white", lwd = 0.9, linetype = 1) +
-  geom_text(aes(label = round(gemiddelde, 1)), family = font) +
-  labs(title = NULL, x = NULL, y = NULL) +
-  scale_fill_gradientn(colors = hcl.colors(20, "RdYlgn")) +
-  theme_os() +
-  facet_wrap(~groep)
+  fig_rap_functie(yvar = fct_rev(markt))
 
 
 ggsave(
   "06 output figuren/fig_v11_rap_tile.svg",
-  width = 12,
+  width = 10,
   height = 8
 )
 
@@ -331,7 +377,7 @@ ggsave(
 rap_c_ond_items <- df_rapportcijfers[["totaal"]] |>
   add_column(groep = "ondernemers")
 
-items <- c(
+items_ond <- c(
   "kant en klaar voedsel",
   "indeling en opstelling van de markt",
   "netheid/verzorgdheid",
@@ -356,24 +402,14 @@ bind_rows(rap_c_bez_items, rap_c_ond_items) |>
       "kant en klaar voedsel"
     )
   ) |>
-  filter(labels %in% items) |>
+  filter(labels %in% items_ond) |>
 
-  ggplot(aes(
-    x = jaar,
-    y = labels,
-    fill = round(gemiddelde, 1)
-  )) +
-  geom_tile(color = "white", lwd = 0.9, linetype = 1) +
-  geom_text(aes(label = round(gemiddelde, 1)), family = font) +
-  labs(title = NULL, x = NULL, y = NULL) +
-  scale_fill_gradientn(colors = hcl.colors(20, "RdYlgn")) +
-  theme_os() +
-  facet_wrap(~groep)
+  fig_rap_functie(yvar = fct_relevel(fct_rev(labels), "algemeen rapportcijfer"))
 
 
 ggsave(
   "06 output figuren/fig_v11_rap_tile_items.svg",
-  width = 12,
+  width = 10,
   height = 6
 )
 
@@ -387,7 +423,7 @@ df_rapportcijfers[["markt"]] |>
     afr = 1,
     yvar = fct_reorder(markt, gemiddelde)
   ) +
-  facet_wrap(~labels)
+  facet_wrap(~ fct_relevel(labels, "algemeen rapportcijfer"))
 
 ggsave(
   "06 output figuren/fig_v11_rap_ond_totaal.svg",

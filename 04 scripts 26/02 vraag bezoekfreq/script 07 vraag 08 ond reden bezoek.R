@@ -198,14 +198,16 @@ bind_rows(
 ) |>
 
   fun_totaal_een(
-    xvar = aandeel * 100,
+    grenswaarde = 0.015,
+    xvar = aandeel,
     yvar = fct_relevel(fct_reorder(name_tot, aandeel), "anders")
   ) +
+  scale_x_continuous(labels = scales::percent) +
   facet_wrap(~groep)
 
 
 ggsave(
   "06 output figuren/fig_v3_reden_bezoek_totaal.svg",
-  width = 12,
+  width = 10,
   height = 6
 )

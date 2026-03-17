@@ -117,13 +117,13 @@ bind_rows(
     add_column(type_markt2 = 'totaal')
 ) |>
   fun_totaal(
-    xvar = aandeel * 100,
+    xvar = aandeel,
     yvar = fct_rev(jaar),
     fillvar = fct_rev(v7),
-    color_pal = os_blauw
+    color_pal = stoplicht6[c(1, 2, 3, 4, 6, 7)]
   ) +
   facet_wrap(~type_markt2)
 
-ggsave("06 output figuren/fig_v7_ond_markt2.svg", width = 12, height = 5)
+ggsave("06 output figuren/fig_v7_ond_markt2.svg", width = 10, height = 4)
 
 ### toevoegen open antwoorden ---

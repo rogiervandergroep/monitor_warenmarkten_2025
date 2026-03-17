@@ -93,10 +93,10 @@ source("04 scripts 26/00 scr/script 00 levels.R")
 
 tabel_tevredenheid[["totaal"]] |>
   fun_totaal(
-    xvar = aandeel * 100,
+    xvar = aandeel,
     yvar = fct_rev(jaar),
     fillvar = fct_reorder(v8, aandeel),
-    color_pal = os_blauw
+    color_pal = stoplicht6[c(1, 2, 3, 4, 6, 7)]
   )
 
 ggsave("06 output figuren/fig_v8_tevr_totaal.svg", width = 12, height = 6)
@@ -105,10 +105,10 @@ ggsave("06 output figuren/fig_v8_tevr_totaal.svg", width = 12, height = 6)
 tabel_tevredenheid[['markt']] |>
   filter(jaar == 'jaar 2025') |>
   fun_totaal(
-    xvar = aandeel * 100,
+    xvar = aandeel,
     yvar = fct_rev(markt),
     fillvar = fct_reorder(v8, aandeel),
-    color_pal = os_blauw[c(1, 3, 4, 6, 7)]
+    color_pal = stoplicht6[c(1, 2, 3, 4, 6, 7)]
   )
 
 ggsave("06 output figuren/fig_v8_tevr_markt.svg", width = 12, height = 10)
@@ -119,14 +119,14 @@ bind_rows(
     add_column(type_markt2 = 'totaal')
 ) |>
   fun_totaal(
-    xvar = aandeel * 100,
+    xvar = aandeel,
     yvar = fct_rev(jaar),
     fillvar = fct_reorder(v8, aandeel),
-    color_pal = os_blauw
+    color_pal = stoplicht6[c(1, 2, 3, 4, 6, 7)]
   ) +
   facet_wrap(~type_markt2)
 
-ggsave("06 output figuren/fig_v8_tevr_markt2.svg", width = 12, height = 6)
+ggsave("06 output figuren/fig_v8_tevr_markt2.svg", width = 10, height = 5)
 
 
 bind_rows(

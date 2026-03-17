@@ -80,7 +80,10 @@ fun_totaal <- function(
     theme(text = element_text(size = 16)) +
     scale_fill_manual(name = NULL, values = color_pal) +
     scale_color_manual(name = NULL, values = label_col) +
-    scale_x_continuous(labels = scales::percent) +
+    scale_x_continuous(
+      breaks = c(0.25, 0.5, 0.75),
+      labels = scales::percent
+    ) +
     guides(
       color = 'none',
       fill = guide_legend(nrow = nr, reverse = T)

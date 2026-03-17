@@ -10,12 +10,13 @@ execute:
   warning: false
   error: false
 params:
-  markt: "Plein '40-'45"
-  stadsdeel: "Nieuw-West"
+  markt: "Ten Katemarkt"
+  stadsdeel: "West"
   type: "markt op meerdere dagen"
-  map_id: 16
+  map_id: 17
 ---
 ```{r}
+
 
 # libs for markdown
 library(knitr)
@@ -185,9 +186,9 @@ fig <- read_rds("02 figuren/fig_markt_prijs.rds")
 fig[[params$markt]]
 ```
 ::: {custom-style = "7 Bron"}
-Monitor Detailhandel, 2026
+Monitor Detailhandel, 2020, 2022, 2024 en 2026
 :::
-  
+NB: Het veldwerk van De Monitor Detailhandel vindt een jaar eerder plaats dan de publicatiedatum: Het veldwerk van de monitor 2020 vond dus plaats in 2019 etc.
 
 ::: {custom-style = "quarto kop 2"}
 Reden bezoek  
@@ -249,7 +250,7 @@ Bij 'anders namelijk' konden bezoekers aangeven welke producten zij nog meer koc
   
 :::
     
-In onderstaande figuur is aangeven of bezoekers vooral voor de markt of de winkels in het winkelgebied komen. De uitkomsten zijn vergeleken met de bevindingen van alle bezoekers.  
+In onderstaande figuur is aangegeven of bezoekers vooral voor de markt of de winkels in het winkelgebied komen. De uitkomsten zijn vergeleken met de bevindingen van alle bezoekers.  
   
 ::: {custom-style = "quarto figuurtitel"}
 Figuur 13 Aandeel bezoekers dat aangeeft specifiek naar de markt te komen dan wel naar winkels, `{r} params$markt` versus gemiddelde alle markten, 2017, 2022 en 2025 (procenten)  
@@ -456,7 +457,7 @@ fig[[params$markt]]
 :::
   
   
-Aan ondernemers op deze markt is gevraagd in hoeverre zij tevreden zijn met de samenwerking met andere groepen belanghebbenden, waaronder andere marktondernemers, winkeliers en horecaondernemers en gemeente en stadsdeel. De bevindingen staan in de figuren 24a tot en met 24d. 
+Aan ondernemers op deze markt is gevraagd in hoeverre zij tevreden zijn met de samenwerking met andere groepen belanghebbenden, waaronder andere marktondernemers, winkeliers en horecaondernemers en gemeente en stadsdeel. De bevindingen staan in de figuren 23a tot en met 23d. 
   
 ::: {custom-style = "quarto figuurtitel"}
 Figuur 23a Beoordeling samenwerking ondernemers `{r} params$markt` met andere marktondernemers, 2017, 2022 en 2025 (procenten)  

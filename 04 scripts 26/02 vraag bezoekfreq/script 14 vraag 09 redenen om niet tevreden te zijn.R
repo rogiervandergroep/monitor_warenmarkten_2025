@@ -145,12 +145,13 @@ redenen_ontevreden <- redenen_ontevreden |>
 redenen_ontevreden[["totaal"]] |>
 
   fun_totaal_een(
-    xvar = aandeel * 100,
+    xvar = aandeel,
     yvar = fct_relevel(fct_reorder(labels, aandeel), "anders")
   ) +
-  facet_wrap(~jaar)
+  facet_wrap(~jaar) +
+  scale_x_continuous(labels = scales::percent)
 
-ggsave("06 output figuren/fig_v9_ontevr_totaal.svg", width = 12, height = 4)
+ggsave("06 output figuren/fig_v9_ontevr_totaal.svg", width = 10, height = 4)
 
 
 redenen_ontevreden[['markt']] |>
@@ -159,6 +160,8 @@ redenen_ontevreden[['markt']] |>
     xvar = aantal,
     yvar = fct_relevel(fct_reorder(labels, aandeel), "anders")
   ) +
-  facet_wrap(~markt)
+  facet_wrap(~markt) +
+  scale_x_continuous(labels = scales::percent)
+
 
 ggsave("06 output figuren/fig_v9_ontevr_markt.svg", width = 12, height = 6)

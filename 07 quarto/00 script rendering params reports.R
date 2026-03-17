@@ -8,9 +8,6 @@ library(purrr)
 # inlezen alle markten
 params_df <- read.xlsx("07 quarto/markten_quarto.xlsx")
 
-# inlezen markten nieuw-west
-params_nw <- params_df |>
-  filter(markt %in% c("Tussen Meer", "Lambertus Zijlplein"))
 
 ## functie
 render_one <- function(markt, stadsdeel, type, map_id) {
@@ -40,16 +37,37 @@ render_one <- function(markt, stadsdeel, type, map_id) {
 #   map_id = 10
 # )
 
-render_one(
-  markt = "Tussen Meer",
-  stadsdeel = 'Nieuw-West',
-  type = "eendaagse markt",
-  map_id = 14
-)
+# render_one(
+#   markt = "Tussen Meer",
+#   stadsdeel = 'Nieuw-West',
+#   type = "eendaagse markt",
+#   map_id = 14
+# )
 
 # render_one(
 #   markt = "Albert Cuypmarkt",
 #   stadsdeel = 'Zuid',
-#   type = "markt op meerdere ",
+#   type = "markt op meerdere dagen",
 #   map_id = 2
+# )
+
+# render_one(
+#   markt = "Ten Katemarkt",
+#   stadsdeel = 'West',
+#   type = "markt op meerdere dagen",
+#   map_id = 17
+# )
+
+# render_one(
+#   markt = "Buikslotermeerplein",
+#   stadsdeel = 'Noord',
+#   type = "markt op meerdere dagen",
+#   map_id = 3
+# )
+
+# render_one(
+#   markt = "Dappermarkt",
+#   stadsdeel = 'Oost',
+#   type = "markt op meerdere dagen",
+#   map_id = 4
 # )

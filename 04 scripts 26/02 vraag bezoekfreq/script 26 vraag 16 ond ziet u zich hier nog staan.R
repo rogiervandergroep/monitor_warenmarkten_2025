@@ -68,7 +68,7 @@ tab_ond_v16_open <- markt_list[["26_ond"]] |>
 
 write_rds(tab_ond_v16_open, "07 quarto/03 data/tab_v16_open.rds")
 
-# v11 wqat is het sterkste punt van de martk
+# v11 wat is het sterkste punt van de martk
 tab_ond_v11_open <- markt_list[["26_ond"]] |>
   select(markt, v11) |>
   filter(v11 != '') |>
@@ -139,12 +139,12 @@ bind_rows(
   filter(!is.na(leefklas)) |>
   mutate(leefklas = factor(leefklas, levels = levels_leefklas)) |>
   fun_totaal(
-    xvar = aandeel * 100,
+    xvar = aandeel,
     yvar = fct_rev(leefklas),
     fillvar = fct_rev(v16a),
-    color_pal = os_blauw[c(3, 2, 5, 7)],
+    color_pal = stoplicht6[c(2, 3, 6, 7)],
     nr = 2
   )
 
 
-ggsave("06 output figuren/fig_v16a_ond_leefklas.svg", width = 8, height = 5)
+ggsave("06 output figuren/fig_v16a_ond_leefklas.svg", width = 7, height = 4)

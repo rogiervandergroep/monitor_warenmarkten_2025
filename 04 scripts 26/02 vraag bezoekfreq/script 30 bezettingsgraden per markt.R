@@ -30,16 +30,19 @@ data_bezettingsgraden |>
         labels = label_percent(),
         expand = c(0, 0)
     ) +
+    scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+
     labs(y = NULL, x = NULL) +
     theme_os_line(legend_position = 'bottom')
-ggsave("06 output figuren/fig_bezettingsgraad.svg", width = 12, height = 6)
+ggsave("06 output figuren/fig_bezettingsgraad.svg", width = 10, height = 4)
 
 data_bezettingsgraden |>
     filter(name == 'Eindtotaal') |>
     fun_totaal_een(
-        xvar = round(value * 100),
+        xvar = value,
         yvar = fct_relevel(fct_reorder(Markt_bez, value), 'totaal')
-    )
+    ) +
+    scale_x_continuous(labels = scales::percent)
 ggsave("06 output figuren/fig_bezettingsgraad2.svg", width = 6, height = 6)
 
 
@@ -92,14 +95,14 @@ data_bez <- data_bezettingsgraden |>
         lft_quant = gtools::quantcut(leeftijd),
 
         type_ondernemer = case_when(
-            type %in% c("TVPL", "TVPLZ") ~ 'tijdelijke vasteplaatshouder',
-            type %in% c("VPL", "EB") ~ 'vergunninghouder',
-            type == 'SOLL' ~ 'sollicitant'
+            type %in% c("TVPL", "TVPLZ") ~ 'tijd. v.p.',
+            type %in% c("VPL", "EB") ~ 'verg.',
+            type == 'SOLL' ~ 'soll.'
         ),
 
         leeftijdsklasse = case_when(
             lft_quant == '[20,36]' ~ 'tot 36 jaar',
-            lft_quant == '(36,49]' ~ '36 tot 49 jaar',
+            lft_quant == '(36,49]' ~ '36 jaar tot 49 jaar',
             lft_quant == '(49,60]' ~ '49 jaar tot 60 jaar',
             lft_quant == '(60,120]' ~ '60 jaar en ouder'
         ),
@@ -108,7 +111,7 @@ data_bez <- data_bezettingsgraden |>
             leeftijdsklasse,
             levels = c(
                 'tot 36 jaar',
-                '36 tot 49 jaar',
+                '36 jaar tot 49 jaar',
                 '49 jaar tot 60 jaar',
                 '60 jaar en ouder'
             )
@@ -189,6 +192,84 @@ duur_per_cat <- bind_rows(
         mutate(aandeel = aantal / sum(aantal)) |>
         add_column(markt = 'alle markten')
 )
+
+## lengte op de markt
+duur_per_cat <- bind_rows(
+    data_bez |>
+        group_by(markt, duur_klasse) |>
+        summarise(aantal = n()) |>
+        group_by(markt) |>
+        mutate(aandeel = aantal / sum(aantal)),
+
+    data_bez |>
+        group_by(duur_klasse) |>
+        summarise(aantal = n()) |>
+        ungroup() |>
+        mutate(aandeel = aantal / sum(aantal)) |>
+        add_column(markt = 'alle markten')
+)
+
+## categorie sollicitant of vaste plek
+type_ond <- bind_rows(
+    data_bez |>
+        group_by(markt, type_ondernemer) |>
+        summarise(aantal = n()) |>
+        group_by(markt) |>
+        mutate(aandeel = aantal / sum(aantal)),
+
+    data_bez |>
+        group_by(type_ondernemer) |>
+        summarise(aantal = n()) |>
+        ungroup() |>
+        mutate(aandeel = aantal / sum(aantal)) |>
+        add_column(markt = 'alle markten')
+)
+
+
+### figuren ---
+
+#  aantal jaren dat ondernemers op de markt staan
+a <- duur_per_cat |>
+    filter(markt == 'alle markten') |>
+    fun_totaal_een(
+        verm_factor = 100,
+        grenswaarde = 0.1,
+        xvar = aandeel,
+        yvar = fct_rev(duur_klasse)
+    ) +
+    scale_x_continuous(labels = scales::percent) +
+    labs(x = 'aantal jaren op markt')
+
+# leeftijdsklasse van ondernemers
+b <- leeft_per_cat |>
+    filter(markt == 'alle markten') |>
+    fun_totaal_een(
+        verm_factor = 100,
+        grenswaarde = 0.1,
+        xvar = aandeel,
+        yvar = fct_rev(leeftijdsklasse)
+    ) +
+    scale_x_continuous(labels = scales::percent) +
+    labs(x = 'leeftijdsverdeling')
+
+
+# ltype ondernemer
+c <- type_ond |>
+    filter(markt == 'alle markten') |>
+
+    fun_totaal_een(
+        verm_factor = 100,
+        grenswaarde = 0.1,
+        xvar = aandeel,
+        yvar = type_ondernemer
+    ) +
+    scale_x_continuous(labels = scales::percent) +
+    labs(x = 'type ondernemer')
+
+library(patchwork)
+
+b + a + c
+ggsave("06 output figuren/fig_kenmerken_ond.svg", width = 10, height = 4)
 
 
 write.xlsx(

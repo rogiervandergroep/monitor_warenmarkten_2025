@@ -56,20 +56,23 @@ source("04 scripts 26/00 scr/script 00 plot functies.R")
 source("04 scripts 26/00 scr/script 00 levels.R")
 
 
+levels_stadsdeelplus <- c(levels_stadsdeel, "overig Nederland", "buitenland")
+
 tabel_v6 |>
   filter(
     !is.na(achtergrond_type),
     achtergrond_type != 'Westpoort',
+    achtergrond_type != 'woonplaats onbekend',
     achtergrond_var %in% c('gebied_stadsdeel_naam', 'totaal')
   ) |>
   mutate(
-    achtergrond_type = factor(achtergrond_type, levels = levels_stadsdeel)
+    achtergrond_type = factor(achtergrond_type, levels = levels_stadsdeelplus)
   ) |>
   fun_totaal(
-    xvar = aandeel * 100,
-    yvar = fct_rev(achtergrond_type),
+    xvar = aandeel,
+    yvar = fct_relevel(fct_rev(achtergrond_type), 'totaal'),
     fillvar = fct_reorder(v6, aandeel),
-    color_pal = os_blauw
+    color_pal = discreet[c(10, 9, 8, 6, 4, 3, 1)]
   )
 
 ggsave("06 output figuren/fig_tabel_v6_sd.svg", width = 12, height = 6)

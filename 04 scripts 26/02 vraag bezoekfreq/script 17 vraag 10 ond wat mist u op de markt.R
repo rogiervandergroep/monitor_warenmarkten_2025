@@ -196,18 +196,21 @@ bind_rows(
 ) |>
 
   fun_totaal_een(
-    xvar = aandeel * 100,
+    grenswaarde = 0.04,
+
+    xvar = aandeel,
     yvar = fct_relevel(
       fct_reorder(labels, aandeel),
       "niets, markt is goed zo",
       "anders"
     )
   ) +
-  facet_wrap(~groep)
+  facet_wrap(~groep) +
+  scale_x_continuous(labels = scales::percent)
 
 
 ggsave(
   "06 output figuren/fig_v10_mistopmarkt_totaal.svg",
-  width = 12,
+  width = 10,
   height = 6
 )

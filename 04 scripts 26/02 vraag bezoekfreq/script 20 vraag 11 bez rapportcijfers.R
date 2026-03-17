@@ -303,81 +303,77 @@ rap_c_bez_items <- df_rapportcijfers[["totaal"]] |>
 
   add_column(groep = "bezoekers")
 
-
-ggplot(aes(
-  x = jaar,
-  y = markt,
-  fill = gemiddelde
-)) +
-  geom_tile(color = "white", lwd = 0.9, linetype = 1) +
-  labs(title = NULL, x = NULL, y = NULL) +
-  scale_fill_gradientn(colors = hcl.colors(20, "RdYlgn")) +
-  theme_os() +
-  coord_fixed(0.6)
-
+# ggplot(aes(
+#   x = jaar,
+#   y = markt,
+#   fill = gemiddelde
+# )) +
+#   geom_tile(color = "white", lwd = 0.9, linetype = 1) +
+#   labs(title = NULL, x = NULL, y = NULL) +
+#   scale_fill_gradientn(colors = hcl.colors(20, "RdYlgn")) +
+#   theme_os() +
+#   coord_fixed(0.6)
 
 ## opschonen antwoorden voor figuren
-df_rapportcijfers[["markt"]] <- df_rapportcijfers[["markt"]] |>
-  my_filter()
+# df_rapportcijfers[["markt"]] <- df_rapportcijfers[["markt"]] |>
+#   my_filter()
 
-df_rapportcijfers[["markt"]] |>
-  filter(jaar == 'jaar 2025') |>
-  fun_totaal_een(
-    xvar = gemiddelde,
-    afr = 1,
-    yvar = fct_reorder(markt, gemiddelde)
-  ) +
-  facet_wrap(~labels)
+# df_rapportcijfers[["markt"]] |>
+#   filter(jaar == 'jaar 2025') |>
+#   fun_totaal_een(
+#     xvar = gemiddelde,
+#     afr = 1,
+#     yvar = fct_reorder(markt, gemiddelde)
+#   ) +
+#   facet_wrap(~labels)
 
-ggsave(
-  "06 output figuren/fig_v11_rap_totaal.svg",
-  width = 12,
-  height = 8
-)
+# ggsave(
+#   "06 output figuren/fig_v11_rap_totaal.svg",
+#   width = 12,
+#   height = 8
+# )
 
+# df_rapportcijfers[["markt"]] |>
+#   filter(jaar == 'jaar 2025') |>
+#   fun_totaal_een(
+#     xvar = gemiddelde,
+#     afr = 1,
+#     yvar = fct_reorder(markt, gemiddelde)
+#   ) +
+#   facet_wrap(~labels)
 
-df_rapportcijfers[["markt"]] |>
-  filter(jaar == 'jaar 2025') |>
-  fun_totaal_een(
-    xvar = gemiddelde,
-    afr = 1,
-    yvar = fct_reorder(markt, gemiddelde)
-  ) +
-  facet_wrap(~labels)
+# ggsave(
+#   "06 output figuren/fig_v11_rap_markt.svg",
+#   width = 12,
+#   height = 8
+# )
 
-ggsave(
-  "06 output figuren/fig_v11_rap_markt.svg",
-  width = 12,
-  height = 8
-)
+# df_rapportcijfers[["type_markt2"]] |>
+#   filter(jaar == 'jaar 2025') |>
+#   fun_totaal_een(
+#     xvar = gemiddelde,
+#     afr = 1,
+#     yvar = fct_reorder(labels, gemiddelde)
+#   ) +
+#   facet_wrap(~type_markt2)
 
+# ggsave(
+#   "06 output figuren/fig_v11_rap_type_markt2.svg",
+#   width = 12,
+#   height = 8
+# )
 
-df_rapportcijfers[["type_markt2"]] |>
-  filter(jaar == 'jaar 2025') |>
-  fun_totaal_een(
-    xvar = gemiddelde,
-    afr = 1,
-    yvar = fct_reorder(labels, gemiddelde)
-  ) +
-  facet_wrap(~type_markt2)
+# df_rapportcijfers[["markt"]] |>
+#   filter(labels == 'algemeen rapportcijfer') |>
+#   fun_totaal_een(
+#     xvar = gemiddelde,
+#     afr = 1,
+#     yvar = fct_reorder(markt, gemiddelde)
+#   ) +
+#   facet_wrap(~jaar)
 
-ggsave(
-  "06 output figuren/fig_v11_rap_type_markt2.svg",
-  width = 12,
-  height = 8
-)
-
-df_rapportcijfers[["markt"]] |>
-  filter(labels == 'algemeen rapportcijfer') |>
-  fun_totaal_een(
-    xvar = gemiddelde,
-    afr = 1,
-    yvar = fct_reorder(markt, gemiddelde)
-  ) +
-  facet_wrap(~jaar)
-
-ggsave(
-  "06 output figuren/fig_v11_rap_algemeen.svg",
-  width = 12,
-  height = 8
-)
+# ggsave(
+#   "06 output figuren/fig_v11_rap_algemeen.svg",
+#   width = 12,
+#   height = 8
+# )

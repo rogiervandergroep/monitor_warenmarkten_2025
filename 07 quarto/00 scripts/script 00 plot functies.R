@@ -22,6 +22,7 @@ my_markt_rename <- function(x) {
         markt == "totaal" ~ "alle markten",
         markt == "Plein 40-45" ~ "Plein '40-'45",
         markt == "Tussenmeer" ~ "Tussen Meer",
+        markt == "Ten Katestraat" ~ "Ten Katemarkt",
         TRUE ~ markt
       )
     )

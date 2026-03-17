@@ -86,6 +86,7 @@ levels_markt |>
   set_names(levels_markt) |>
   write_rds("07 quarto/02 figuren/fig_mb_lftklas.rds")
 
+
 levels_markt |>
   map(\(x) {
     filter(leeft_per_markt, markt %in% c(x, 'alle markten')) |>

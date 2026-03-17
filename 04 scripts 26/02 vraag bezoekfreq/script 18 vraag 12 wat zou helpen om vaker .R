@@ -114,16 +114,17 @@ v12_helpen <- v12_helpen |>
 v12_helpen[["totaal"]] |>
 
   fun_totaal_een(
-    xvar = aandeel * 100,
+    xvar = aandeel,
     yvar = fct_relevel(
       fct_reorder(labels, aandeel),
       "niets",
       "anders"
     )
-  )
+  ) +
+  scale_x_continuous(labels = scales::percent)
 ggsave(
   "06 output figuren/fig_v12_markt_ams.svg",
-  width = 12,
+  width = 7,
   height = 5
 )
 

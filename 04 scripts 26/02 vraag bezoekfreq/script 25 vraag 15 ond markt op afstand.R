@@ -65,12 +65,19 @@ bind_rows(
   tabel_v15_ond[['totaal']] |>
     add_column(type_markt2 = 'totaal')
 ) |>
+  mutate(
+    v15 = str_replace_all(
+      v15,
+      "daar sta ik neutraal tegenover: niet positief maar ook niet negatief",
+      "daar sta ik neutraal tegenover"
+    )
+  ) |>
   fun_totaal(
-    xvar = aandeel * 100,
+    xvar = aandeel,
     yvar = fct_rev(type_markt2),
     fillvar = fct_rev(v15),
-    color_pal = os_blauw[c(3, 5, 7)],
+    color_pal = stoplicht6[c(2, 4, 7)],
     nr = 3
   )
 
-ggsave("06 output figuren/fig_v15_ond_markt2.svg", width = 8, height = 5)
+ggsave("06 output figuren/fig_v15_ond_markt2.svg", width = 7, height = 4)

@@ -331,13 +331,13 @@ tabel_v5_samenwerking[["totaal"]] |>
     )
   ) |>
   fun_totaal(
-    xvar = aandeel * 100,
+    xvar = aandeel,
     yvar = fct_rev(jaar),
     fillvar = fct_rev(v5),
-    color_pal = os_blauw[c(1, 3, 4, 6, 7)]
+    color_pal = stoplicht6[c(1, 2, 3, 5, 7)]
   ) +
   facet_wrap(~samenwerking_met, nrow = 1)
 
-ggsave("06 output figuren/fig_v5_ond_totaal.svg", width = 12, height = 5)
+ggsave("06 output figuren/fig_v5_ond_totaal.svg", width = 10, height = 4)
 
 # toevoegen open atnwoorden

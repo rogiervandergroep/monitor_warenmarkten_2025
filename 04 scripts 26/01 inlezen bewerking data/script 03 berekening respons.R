@@ -117,6 +117,28 @@ respons[["wijk"]] <- bind_rows(
     )
 )
 
+### voor 2022 en 2026 --- check engels vs buitenland
+
+data_engels <- bind_rows(
+  markt_list[["22_bez"]][["bez_22_ams"]] |>
+    select(jaar, markt, gebied_stadsdeel_naam, a),
+  markt_list[["22_bez"]][["bez_22_wsp"]] |>
+    select(jaar, gebied_stadsdeel_naam) |>
+    add_column(
+      a = 'Nederlands',
+      markt = "Weesp"
+    ),
+  markt_list[["26_bez"]] |>
+    select(jaar, markt, gebied_stadsdeel_naam, a)
+) |>
+  filter(!is.na(a))
+
+respons[["engels"]] <- data_engels |>
+  group_by(jaar, gebied_stadsdeel_naam, a) |>
+  summarise(aantal = n()) |>
+  group_by(jaar, gebied_stadsdeel_naam) |>
+  mutate(aandeel = aantal / sum(aantal))
+
 
 ### hercoderen huishoudsituatie en bezigheid
 
